@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import pl.biletmiejski.backend.dto.BuyTicketRequest;
+import pl.biletmiejski.backend.dto.CreateTicketTypeRequest;
 import pl.biletmiejski.backend.model.*;
 import pl.biletmiejski.backend.repository.*;
 
@@ -105,4 +106,37 @@ public class TicketService {
                     now.isBefore(ticket.getValidUntil());
         };
     }
+
+    // dodawanie nowego typu biletu do oferty
+    public TicketType addTicketType(CreateTicketTypeRequest request) {
+        TicketType type = TicketType.builder()
+                .name(request.getName())
+                .category(request.getCategory())
+                .discountType(request.getDiscountType())
+                .price(request.getPrice())
+                .durationMinutes(request.getDurationMinutes())
+                .build();
+        return ticketTypeRepository.save(type);
+    }
+
+    // usuwanie typu biletu z oferty
+    @Transactional
+    public void deleteTicketType(Long id) {
+        TicketType type = ticketTypeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ticket type not found"));
+
+        LocalDateTime now = LocalDateTime.now();
+
+        // Usuń aktywne bilety tego typu
+        List<Ticket> tickets = ticketRepository.findByTicketTypeAndUsedFalse(type)
+                .stream()
+                .filter(ticket -> ticket.getValidUntil() == null || ticket.getValidUntil().isAfter(now))
+                .toList();
+
+        ticketRepository.deleteAll(tickets);
+
+        // Usuń sam typ
+        ticketTypeRepository.delete(type);
+    }
+
 }

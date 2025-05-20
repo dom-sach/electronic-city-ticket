@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.biletmiejski.backend.dto.BuyTicketRequest;
+import pl.biletmiejski.backend.dto.CreateTicketTypeRequest;
 import pl.biletmiejski.backend.model.Ticket;
 import pl.biletmiejski.backend.model.TicketType;
 import pl.biletmiejski.backend.service.TicketService;
@@ -38,4 +39,20 @@ public class TicketController {
     public ResponseEntity<List<Ticket>> getMyTickets() {
         return ResponseEntity.ok(ticketService.getMyTickets());
     }
+
+    @Operation(summary = "Dodaj bilet", description = "Dodaje nowy typ biletu do oferty")
+    @PreAuthorize("isAuthenticated()") // Można zmienić na hasRole('ADMIN') w przyszłości
+    @PostMapping("/types")
+    public ResponseEntity<TicketType> addTicketType(@RequestBody CreateTicketTypeRequest request) {
+        return ResponseEntity.ok(ticketService.addTicketType(request));
+    }
+
+    @Operation(summary = "Usuń bilet", description = "Usuwa typ biletu z oferty")
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/types/{id}")
+    public ResponseEntity<Void> deleteTicketType(@PathVariable Long id) {
+        ticketService.deleteTicketType(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
