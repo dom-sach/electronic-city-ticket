@@ -1,4 +1,6 @@
 # Elektroniczny bilet miejski
+*Aleksandra Piątek, Dominika Sachanbińska*
+
 System umożliwia użytkownikom korzystanie z wirtualnych biletów do poruszania się po mieście komunikacją zbiorową. Obejmuje trzy główne role:
 - Pasażer: może się zarejestrować, przeglądać ofertę biletową, kupować bilety oraz przeglądać ich historię.
 - Bileter: może sprawdzać ważność biletu na podstawie unikalnego kodu oraz pojazdu.
