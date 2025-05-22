@@ -41,14 +41,14 @@ public class TicketController {
     }
 
     @Operation(summary = "Dodaj bilet", description = "Dodaje nowy typ biletu do oferty")
-    @PreAuthorize("isAuthenticated()") // Można zmienić na hasRole('ADMIN') w przyszłości
+    @PreAuthorize("hasRole('ADMINISTRATOR')") // Można zmienić na hasRole('ADMIN') w przyszłości
     @PostMapping("/types")
     public ResponseEntity<TicketType> addTicketType(@RequestBody CreateTicketTypeRequest request) {
         return ResponseEntity.ok(ticketService.addTicketType(request));
     }
 
     @Operation(summary = "Usuń bilet", description = "Usuwa typ biletu z oferty")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping("/types/{id}")
     public ResponseEntity<Void> deleteTicketType(@PathVariable Long id) {
         ticketService.deleteTicketType(id);

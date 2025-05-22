@@ -1,0 +1,25 @@
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.toolbar-left,
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toolbar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  flex-grow: 1;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}

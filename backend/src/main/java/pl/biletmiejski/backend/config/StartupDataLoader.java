@@ -20,7 +20,7 @@ public class StartupDataLoader {
 
     @PostConstruct
     public void init() {
-        // Dodaj ofertę biletową, jeśli nie istnieje
+        // Dodajemy startową ofertę biletową, jeśli nie istnieje
         if (ticketTypeRepository.count() == 0) {
             List<TicketType> types = List.of(
                     TicketType.builder()
@@ -47,23 +47,35 @@ public class StartupDataLoader {
             ticketTypeRepository.saveAll(types);
         }
 
-        // Dodaj użytkowników testowych, jeśli nie istnieją
-        if (userRepository.findByEmail("pasażer@test.pl").isEmpty()) {
+        // Dodajemy użytkowników testowych, jeśli nie istnieją
+        if (userRepository.findByEmail("user1@gmail.com").isEmpty()) {
             userRepository.save(
                     User.builder()
-                            .email("pasażer@test.pl")
+                            .email("user1@gmail.com")
                             .password(passwordEncoder.encode("123456"))
                             .role(Role.PASSENGER)
                             .build()
             );
         }
 
-        if (userRepository.findByEmail("bileter@test.pl").isEmpty()) {
+        // Dodajemy bileterów testowych, jeśli nie istnieją
+        if (userRepository.findByEmail("bileter1@gmail.com").isEmpty()) {
             userRepository.save(
                     User.builder()
-                            .email("bileter@test.pl")
+                            .email("bileter1@gmail.com")
                             .password(passwordEncoder.encode("123456"))
                             .role(Role.TICKET_INSPECTOR)
+                            .build()
+            );
+        }
+
+        // Dodajemy admina jeśli nie istnieje
+        if (userRepository.findByEmail("admin@gmail.com").isEmpty()) {
+            userRepository.save(
+                    User.builder()
+                            .email("admin@gmail.com")
+                            .password(passwordEncoder.encode("123456"))
+                            .role(Role.ADMINISTRATOR)
                             .build()
             );
         }

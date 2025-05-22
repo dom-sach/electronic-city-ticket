@@ -1,0 +1,15 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
+  <h2>Zaloguj się</h2>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" required type="email" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Hasło</mat-label>
+    <input matInput formControlName="password" required type="password" />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Zaloguj</button>
+</form>

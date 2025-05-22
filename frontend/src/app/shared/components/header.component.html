@@ -1,0 +1,21 @@
+<mat-toolbar color="primary" class="toolbar" role="navigation">
+  <div class="toolbar-left">
+    <a mat-button routerLink="/">Strona Główna</a>
+    <a mat-button routerLink="/passenger">Oferta</a>
+    <a *ngIf="isLoggedIn()" mat-button routerLink="/passenger/my">Moje bilety</a>
+  </div>
+
+  <span class="toolbar-title">Elektroniczny Bilet Miejski</span>
+
+  <div class="toolbar-right">
+    <ng-container *ngIf="!isLoggedIn(); else logged">
+      <a mat-button routerLink="/register">Zarejestruj</a>
+      <a mat-button routerLink="/login">Zaloguj</a>
+    </ng-container>
+
+    <ng-template #logged>
+      <a mat-button routerLink="/profile">Mój Profil</a>
+      <button mat-button (click)="logout()">Wyloguj</button>
+    </ng-template>
+  </div>
+</mat-toolbar>
