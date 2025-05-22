@@ -2,24 +2,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  align-content: center;
   flex-wrap: wrap;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.toolbar-title-text {
+  flex-grow: 1;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .toolbar-left,
 .toolbar-right {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 10%;
 }
 
-.toolbar-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-align: center;
-  flex-grow: 1;
-}
 
-a {
-  text-decoration: none;
-  color: white;
-}

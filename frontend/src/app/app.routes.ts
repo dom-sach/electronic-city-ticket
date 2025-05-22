@@ -5,7 +5,7 @@ import {authGuard} from './core/guards/auth.guard';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./features/auth/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
   },
   {
     path: 'passenger',
@@ -26,10 +26,6 @@ export const routes: Routes = [
     path: 'passenger/activate',
     canActivate: [authGuard],
     loadComponent: () => import('./features/passenger/ticket-activate.component').then(m => m.TicketActivateComponent)
-  },
-  {
-    path: '',
-    loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
   },
   {
     path: 'profile',

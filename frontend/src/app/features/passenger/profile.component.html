@@ -1,1 +1,14 @@
-<p>profile works!</p>
+<mat-card class="profile-card">
+  <div class="profile-content">
+    <div class="avatar">
+      <mat-icon>person</mat-icon>
+    </div>
+    <div class="user-info">
+      <h2>{{ user.name }}</h2>
+      <p>{{ user.email }}</p>
+      <button mat-raised-button (click)="goToTickets()">
+        Moje bilety
+      </button>
+    </div>
+  </div>
+</mat-card>
