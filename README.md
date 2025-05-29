@@ -18,6 +18,9 @@ System umożliwia:
 - zarządzanie typami biletów (dla testów lub administracji),
 - dokumentację API dostępną przez Swagger UI.
 
+### Schemat bazy danych
+<img src="/assets/bilet-miejski-database-schema.png" width="700px"/>
+
 ## Stack technologiczny
 - **Backend**: Java 17+, Spring Boot 3
 - **Baza danych**: PostgreSQL
