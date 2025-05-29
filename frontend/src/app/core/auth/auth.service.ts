@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs';
+import {firstValueFrom, tap} from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { Observable } from 'rxjs';
+import {routes} from '../../app.routes';
 
 export interface JwtPayload {
   sub: string; // email
@@ -28,9 +29,26 @@ export class AuthService {
     );
   }
 
-  logout(): void {
-    if (typeof window !== 'undefined') {
+  async logout(): Promise<void> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/';
+      return;
+    }
+
+    try {
+      await firstValueFrom(
+        this.http.post(`${this.api}/logout`, {}, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+      );
+    } catch (err) {
+      console.warn('Wylogowywanie nie powiodło się lub token był już nieważny:', err);
+    } finally {
       localStorage.removeItem('token');
+      window.location.href = '/';
     }
   }
 
