@@ -2,7 +2,9 @@ package pl.biletmiejski.backend.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.biletmiejski.backend.dto.BuyTicketRequest;
 import pl.biletmiejski.backend.dto.CreateTicketTypeRequest;
@@ -62,13 +64,26 @@ public class TicketService {
 
     // skasowanie biletu
     public Ticket activateTicket(String code, String vehicleId) {
+
+        // weryfikacja czy user jest właścicielem biletu który chce skasować
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User loggedUser = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
         Ticket ticket = ticketRepository.findByCode(code)
                 .orElseThrow(() -> new RuntimeException("Ticket not found"));
 
+        // user nie jest właściciele
+        if (!ticket.getUser().getId().equals(loggedUser.getId())) {
+            throw new AccessDeniedException("You are not the owner of this ticket");
+        }
+
+        // ticket już wykorzystany
         if (ticket.getActivationDate() != null) {
             throw new RuntimeException("Ticket already activated");
         }
 
+        // nie można aktywować biletu okresowego
         TicketType type = ticket.getTicketType();
         if (type.getCategory() == TicketCategory.PERIOD) {
             throw new RuntimeException("Periodic tickets do not need activation");
@@ -78,8 +93,10 @@ public class TicketService {
                 .orElseGet(() -> vehicleRepository.save(
                         Vehicle.builder().vehicleId(vehicleId).build()));
 
+        // aktywacja
         ticket.setActivationDate(LocalDateTime.now());
         ticket.setActivatedIn(vehicle);
+        ticket.setUsed(true);
 
         if (type.getCategory() == TicketCategory.TIME) {
             ticket.setValidUntil(ticket.getActivationDate().plusMinutes(type.getDurationMinutes()));
