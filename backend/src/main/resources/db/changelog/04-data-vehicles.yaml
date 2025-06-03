@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 04-data-vehicles
+      author: dev
+      changes:
+        - insert:
+            tableName: vehicle
+            columns:
+              - column: { name: vehicle_id, value: "146 Gaj" }
+        - insert:
+            tableName: vehicle
+            columns:
+              - column: { name: vehicle_id, value: "146 Bartoszowice" }
+        - insert:
+            tableName: vehicle
+            columns:
+              - column: { name: vehicle_id, value: "D Giełdowa" }
+        - insert:
+            tableName: vehicle
+            columns:
+              - column: { name: vehicle_id, value: "D Osiedle Sobieskiego" }
+        - insert:
+            tableName: vehicle
+            columns:
+              - column: { name: vehicle_id, value: "136 Kozanów" }
+        - insert:
+            tableName: vehicle
+            columns:
+              - column: { name: vehicle_id, value: "136 Tarnogaj" }
+        - insert:
+            tableName: vehicle
+            columns:
+              - column: { name: vehicle_id, value: "2 Biskupin" }
+        - insert:
+            tableName: vehicle
+            columns:
+              - column: { name: vehicle_id, value: "2 Krzyki" }
+        - insert:
+            tableName: vehicle
+            columns:
+              - column: { name: vehicle_id, value: "A Krzyki" }
+        - insert:
+            tableName: vehicle
+            columns:
+              - column: { name: vehicle_id, value: "A Koszarowa" }

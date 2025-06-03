@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: 03-data-ticket-types
+      author: dev
+      changes:
+        - insert:
+            tableName: ticket_type
+            columns:
+              - column: { name: name, value: "Bilet 30-minutowy normalny" }
+              - column: { name: category, value: "TIME" }
+              - column: { name: discount_type, value: "NORMAL" }
+              - column: { name: price, valueNumeric: 2.50 }
+              - column: { name: duration_minutes, valueNumeric: 15 }
+
+        - insert:
+            tableName: ticket_type
+            columns:
+              - column: { name: name, value: "Bilet 30-minutowy ulgowy" }
+              - column: { name: category, value: "TIME" }
+              - column: { name: discount_type, value: "DISCOUNT" }
+              - column: { name: price, valueNumeric: 1.50 }
+              - column: { name: duration_minutes, valueNumeric: 15 }
+
+        - insert:
+            tableName: ticket_type
+            columns:
+              - column: { name: name, value: "Bilet 60-minutowy ulgowy" }
+              - column: { name: category, value: "TIME" }
+              - column: { name: discount_type, value: "DISCOUNT" }
+              - column: { name: price, valueNumeric: 2.50 }
+              - column: { name: duration_minutes, valueNumeric: 30 }
+
+        - insert:
+            tableName: ticket_type
+            columns:
+              - column: { name: name, value: "Bilet 60-minutowy normalny" }
+              - column: { name: category, value: "TIME" }
+              - column: { name: discount_type, value: "NORMAL" }
+              - column: { name: price, valueNumeric: 3.50 }
+              - column: { name: duration_minutes, valueNumeric: 30 }
+
+
+        - insert:
+            tableName: ticket_type
+            columns:
+              - column: { name: name, value: "Bilet jednorazowy normalny" }
+              - column: { name: category, value: "ONE_TIME" }
+              - column: { name: discount_type, value: "NORMAL" }
+              - column: { name: price, valueNumeric: 4.00 }
+              - column: { name: duration_minutes, value: null }
+
+        - insert:
+            tableName: ticket_type
+            columns:
+              - column: { name: name, value: "Bilet jednorazowy ulgowy" }
+              - column: { name: category, value: "ONE_TIME" }
+              - column: { name: discount_type, value: "DISCOUNT" }
+              - column: { name: price, valueNumeric: 3.00 }
+              - column: { name: duration_minutes, value: null }
+
+        - insert:
+            tableName: ticket_type
+            columns:
+              - column: { name: name, value: "Bilet miesięczny ulgowy" }
+              - column: { name: category, value: "PERIOD" }
+              - column: { name: discount_type, value: "DISCOUNT" }
+              - column: { name: price, valueNumeric: 90.00 }
+              - column: { name: duration_minutes, value: null }
+
+        - insert:
+            tableName: ticket_type
+            columns:
+              - column: { name: name, value: "Bilet miesięczny normalny" }
+              - column: { name: category, value: "PERIOD" }
+              - column: { name: discount_type, value: "NORMAL" }
+              - column: { name: price, valueNumeric: 150.00 }
+              - column: { name: duration_minutes, value: null }

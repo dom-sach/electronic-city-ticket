@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 05-data-tickets
+      author: dev
+      changes:
+        - insert:
+            tableName: ticket
+            columns:
+              - column: { name: code, value: "TICKET-ONE-TIME-001" }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: ticket_type_id, valueNumeric: 1 }
+              - column: { name: purchase_date, valueDate: "2025-06-01T10:00:00" }
+              - column: { name: activation_date, valueDate: "2025-06-01T10:05:00" }
+              - column: { name: valid_until, valueDate: "2025-06-01T10:30:00" }
+              - column: { name: used, valueBoolean: true }
+              - column: { name: activated_in_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: ticket
+            columns:
+              - column: { name: code, value: "TICKET-TIME-001" }
+              - column: { name: user_id, valueNumeric: 2 }
+              - column: { name: ticket_type_id, valueNumeric: 2 }
+              - column: { name: purchase_date, valueDate: "2025-06-01T11:00:00" }
+              - column: { name: activation_date, valueDate: "2025-06-01T11:10:00" }
+              - column: { name: valid_until, valueDate: "2025-06-01T11:40:00" }
+              - column: { name: used, valueBoolean: true }
+              - column: { name: activated_in_id, valueNumeric: 2 }
+
+        - insert:
+            tableName: ticket
+            columns:
+              - column: { name: code, value: "TICKET-ONE-TIME-002" }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: ticket_type_id, valueNumeric: 1 }
+              - column: { name: purchase_date, valueDate: "2025-06-02T15:00:00" }
+              - column: { name: used, valueBoolean: false }
