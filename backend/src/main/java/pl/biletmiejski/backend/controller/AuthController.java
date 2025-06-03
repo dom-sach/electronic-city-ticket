@@ -19,6 +19,7 @@ public class AuthController {
     private final AuthenticationService authService;
     private final TokenRepository tokenRepository;
 
+    // REGISTER
     @Operation(summary = "Rejestracja", description = "Umożliwia rejestrację nowego użytkownika")
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
@@ -26,6 +27,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.register(request));
     }
 
+    // LOGIN
     @Operation(summary = "Logowanie", description = "Umożliwia zalogowanie zarejestrowanego użytkownika")
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(
@@ -33,23 +35,16 @@ public class AuthController {
         return ResponseEntity.ok(authService.authenticate(request));
     }
 
+    // LOGOUT
     @Operation(summary = "Wylogowanie", description = "Wylogowuje użytkownika i deaktywuje jego token dostępu JWT")
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request) {
+    public ResponseEntity<String> logout(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.badRequest().body("Brak tokena JWT");
+            return ResponseEntity.badRequest().body("No JWT token");
         }
-
         String jwt = authHeader.substring(7);
-        Token storedToken = tokenRepository.findByToken(jwt)
-                .orElse(null);
-
-        if (storedToken != null) {
-            storedToken.setExpired(true);
-            storedToken.setRevoked(true);
-            tokenRepository.save(storedToken);
-        }
-        return ResponseEntity.ok().body("Wylogowano pomyślnie");
+        authService.logout(jwt);
+        return ResponseEntity.ok("Logout successful");
     }
 }

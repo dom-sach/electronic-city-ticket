@@ -20,6 +20,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
+    // register
     public AuthenticationResponse register(RegisterRequest request) {
         Role role = Role.valueOf(request.getRole().toUpperCase()); // np. PASSENGER
         User user = User.builder()
@@ -45,6 +46,7 @@ public class AuthenticationService {
                 .build();
     }
 
+    // login
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -52,12 +54,20 @@ public class AuthenticationService {
                 )
         );
 
+        // user not registered yet
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        String jwt = jwtService.generateToken(user.getEmail());
+        // revoke old tokens - safety (e.g. multi-device login)
+        var validUserTokens = tokenRepository.findAllValidTokensByUser(user.getId());
+        validUserTokens.forEach(token -> {
+            token.setExpired(true);
+            token.setRevoked(true);
+        });
+        tokenRepository.saveAll(validUserTokens);
 
-        // możesz dodać logikę odwoływania starych tokenów jeśli chcesz
+        // create new jwt token
+        String jwt = jwtService.generateToken(user.getEmail());
         tokenRepository.save(Token.builder()
                 .token(jwt)
                 .user(user)
@@ -68,5 +78,14 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwt)
                 .build();
+    }
+
+    // logout
+    public void logout(String token) {
+        tokenRepository.findByToken(token).ifPresent(storedToken -> {
+            storedToken.setExpired(true);
+            storedToken.setRevoked(true);
+            tokenRepository.save(storedToken);
+        });
     }
 }

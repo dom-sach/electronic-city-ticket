@@ -1,6 +1,6 @@
 package pl.biletmiejski.backend.service;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -13,6 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TicketServiceTest {
 
     @Mock
@@ -31,7 +32,18 @@ public class TicketServiceTest {
     private TicketService ticketService;
 
     public TicketServiceTest() {
-        MockitoAnnotations.openMocks(this); // Inicjalizuje mocki
+        //MockitoAnnotations.openMocks(this);
+    }
+
+    @BeforeEach
+    void setup(TestInfo testInfo) {
+        MockitoAnnotations.openMocks(this);
+        System.out.println("\n[TicketServiceTest] Starting test: " + testInfo.getDisplayName() + "\n");
+    }
+
+    @AfterEach
+    void teardown(TestInfo testInfo) {
+        System.out.println("\n[TicketServiceTest] Finished test: " + testInfo.getDisplayName() + "\n");
     }
 
     @Test

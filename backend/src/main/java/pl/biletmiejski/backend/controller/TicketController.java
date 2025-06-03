@@ -6,6 +6,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.biletmiejski.backend.dto.BuyTicketRequest;
 import pl.biletmiejski.backend.dto.CreateTicketTypeRequest;
+import pl.biletmiejski.backend.dto.entities.TicketDto;
+import pl.biletmiejski.backend.dto.entities.TicketMapper;
+import pl.biletmiejski.backend.dto.entities.TicketTypeDto;
+import pl.biletmiejski.backend.dto.entities.TicketTypeMapper;
 import pl.biletmiejski.backend.model.Ticket;
 import pl.biletmiejski.backend.model.TicketType;
 import pl.biletmiejski.backend.service.TicketService;
@@ -20,31 +24,42 @@ public class TicketController {
 
     private final TicketService ticketService;
 
+    // get all tickets
     @Operation(summary = "Oferta biletowa", description = "Pokazuje dostępne do kupienia bilety")
     @GetMapping("/types")
-    public ResponseEntity<List<TicketType>> getTicketTypes() {
-        return ResponseEntity.ok(ticketService.getAvailableTicketTypes());
+    public ResponseEntity<List<TicketTypeDto>> getTicketTypes() {
+        List<TicketTypeDto> dtoList = ticketService.getAvailableTicketTypes()
+                .stream()
+                .map(TicketTypeMapper::toDto)
+                .toList();
+        return ResponseEntity.ok(dtoList);
     }
 
+    // buy a ticket
     @Operation(summary = "Kup bilet", description = "Umożliwia zakup biletu dla zalogowanego pasażera")
     @PreAuthorize("hasRole('PASSENGER')")
     @PostMapping("/buy")
-    public ResponseEntity<Ticket> buyTicket(@RequestBody BuyTicketRequest request) {
-        return ResponseEntity.ok(ticketService.buyTicket(request));
+    public ResponseEntity<TicketDto> buyTicket(@RequestBody BuyTicketRequest request) {
+        Ticket ticket = ticketService.buyTicket(request);
+        return ResponseEntity.ok(TicketMapper.toDto(ticket));
     }
 
+    // get my tickets
     @Operation(summary = "Moje bilety", description = "Umożliwia podgląd zakupionych biletów danego użytkownika")
-    @PreAuthorize("hasRole('PASSENGER')")
     @GetMapping("/my")
-    public ResponseEntity<List<Ticket>> getMyTickets() {
-        return ResponseEntity.ok(ticketService.getMyTickets());
+    public List<TicketDto> getTickets() {
+        return ticketService.getMyTickets()
+                .stream()
+                .map(TicketMapper::toDto)
+                .toList();
     }
 
     @Operation(summary = "Dodaj bilet", description = "Dodaje nowy typ biletu do oferty")
-    @PreAuthorize("hasRole('ADMINISTRATOR')") // Można zmienić na hasRole('ADMIN') w przyszłości
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/types")
-    public ResponseEntity<TicketType> addTicketType(@RequestBody CreateTicketTypeRequest request) {
-        return ResponseEntity.ok(ticketService.addTicketType(request));
+    public ResponseEntity<TicketTypeDto> addTicketType(@RequestBody CreateTicketTypeRequest request) {
+        TicketType ticketType = ticketService.addTicketType(request);
+        return ResponseEntity.ok(TicketTypeMapper.toDto(ticketType));
     }
 
     @Operation(summary = "Usuń bilet", description = "Usuwa typ biletu z oferty")
