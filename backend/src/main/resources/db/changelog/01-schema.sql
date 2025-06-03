@@ -1,7 +1,22 @@
 -- Enumy na podstawie klas enum w Java
+DO $$ BEGIN
 CREATE TYPE role AS ENUM ('PASSENGER', 'TICKET_INSPECTOR', 'ADMINISTRATOR');
+EXCEPTION
+    WHEN duplicate_object THEN NULL;
+END $$;
+
+DO $$ BEGIN
 CREATE TYPE discount_type AS ENUM ('NORMAL', 'DISCOUNT');
+EXCEPTION
+    WHEN duplicate_object THEN NULL;
+END $$;
+
+DO $$ BEGIN
 CREATE TYPE ticket_category AS ENUM ('ONE_TIME', 'TIME', 'PERIOD');
+EXCEPTION
+    WHEN duplicate_object THEN NULL;
+END $$;
+
 
 -- Tabela użytkowników
 CREATE TABLE users (
