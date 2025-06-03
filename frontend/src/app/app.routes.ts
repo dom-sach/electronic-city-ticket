@@ -9,7 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'passenger',
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     loadComponent: () => import('./features/passenger/dashboard.component').then(m => m.DashboardComponent),
   },
   {

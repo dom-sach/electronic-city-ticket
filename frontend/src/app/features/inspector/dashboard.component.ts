@@ -5,6 +5,6 @@ import { CommonModule } from '@angular/common';
   selector: 'app-inspector-dashboard',
   standalone: true,
   imports: [CommonModule],
-  template: `<h2>Witaj, bileterze!</h2>`
+  templateUrl: `./dashboard.component.html`
 })
 export class DashboardComponent {}
