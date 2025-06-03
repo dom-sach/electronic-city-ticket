@@ -38,7 +38,7 @@ class TicketControllerTest {
     @MockBean
     private TicketService ticketService;
 
-    @Mock
+    @MockBean
     private TicketTypeRepository ticketTypeRepository;
 
     @Autowired
