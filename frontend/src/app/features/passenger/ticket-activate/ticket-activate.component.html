@@ -1,0 +1,16 @@
+<h2>Skasuj bilet</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="activation-form">
+      <mat-form-field appearance="fill">
+        <mat-label>Kod biletu</mat-label>
+        <input matInput formControlName="ticketCode" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>ID pojazdu</mat-label>
+        <input matInput formControlName="vehicleId" required />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        Skasuj bilet
+      </button>
+    </form>

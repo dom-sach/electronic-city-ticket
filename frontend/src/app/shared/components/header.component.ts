@@ -19,6 +19,11 @@ export class HeaderComponent {
   isLoggedIn(): boolean {
     return !!this.authService.getToken();
   }
+  hasRole(role: string): boolean {
+    console.log(this.authService.getUserRole());
+    return this.authService.getUserRole() == 'TICKET-INSPECTOR';
+  }
+
 
   logout(): void {
     this.authService.logout();

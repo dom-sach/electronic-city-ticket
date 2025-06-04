@@ -4,7 +4,7 @@ import {ReactiveFormsModule, FormBuilder, Validators, FormGroup} from '@angular/
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { TicketService } from '../../core/services/ticket.service';
+import { TicketService } from '../../../core/services/ticket.service';
 
 @Component({
   selector: 'app-ticket-activate',
@@ -16,33 +16,8 @@ import { TicketService } from '../../core/services/ticket.service';
     MatInputModule,
     MatButtonModule
   ],
-  template: `
-    <h2>Skasuj bilet</h2>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="activation-form">
-      <mat-form-field appearance="fill">
-        <mat-label>Kod biletu</mat-label>
-        <input matInput formControlName="ticketCode" required />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>ID pojazdu</mat-label>
-        <input matInput formControlName="vehicleId" required />
-      </mat-form-field>
-
-      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-        Skasuj bilet
-      </button>
-    </form>
-  `,
-  styles: [`
-    .activation-form {
-      max-width: 400px;
-      margin: 40px auto;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-  `]
+  templateUrl: `./ticket-activate.component.html`,
+  styleUrls: [`./ticket-activate.component.scss`]
 })
 export class TicketActivateComponent implements OnInit {
   form!: FormGroup;

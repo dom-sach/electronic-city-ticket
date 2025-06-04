@@ -58,13 +58,16 @@ export class AuthService {
   }
 
   getUserRole(): string | null {
+    console.log(this.getToken());
     const token = this.getToken();
     if (!token) return null;
     try {
       const decoded = jwtDecode<JwtPayload>(token);
+      console.log(decoded);
       return decoded.role ?? null;
     } catch {
       return null;
     }
   }
+
 }
