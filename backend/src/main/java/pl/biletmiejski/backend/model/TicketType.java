@@ -1,6 +1,7 @@
 package pl.biletmiejski.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -24,11 +25,12 @@ public class TicketType {
     @Column(nullable = false)
     private TicketCategory category; // ONE_TIME / TIME / PERIOD
 
+    //@JdbcTypeCode(SqlTypes.OTHER)
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.OTHER)
     @Column(nullable = false, columnDefinition = "discount_type")
     private DiscountType discountType; // NORMAL / DISCOUNT
 
+    @Min(0)
     private BigDecimal price;
 
     private Integer durationMinutes; // null jeśli nie dotyczy (np. bilet okresowy)

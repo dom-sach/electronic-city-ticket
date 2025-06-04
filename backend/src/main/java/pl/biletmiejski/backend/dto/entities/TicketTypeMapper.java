@@ -7,8 +7,8 @@ public class TicketTypeMapper {
         return new TicketTypeDto(
                 ticketType.getId(),
                 ticketType.getName(),
-                ticketType.getCategory().name(),
-                ticketType.getDiscountType().name(),
+                ticketType.getCategory(),
+                ticketType.getDiscountType(),
                 ticketType.getPrice(),
                 ticketType.getDurationMinutes()
         );

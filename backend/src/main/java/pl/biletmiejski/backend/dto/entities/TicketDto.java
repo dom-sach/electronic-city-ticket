@@ -1,5 +1,7 @@
 package pl.biletmiejski.backend.dto.entities;
 
+import pl.biletmiejski.backend.model.TicketType;
+
 import java.time.LocalDateTime;
 
 public record TicketDto(
@@ -9,7 +11,7 @@ public record TicketDto(
         LocalDateTime activationDate,
         LocalDateTime validUntil,
         boolean used,
-        String ticketTypeName,
+        TicketType ticketTypeName,
         String vehicleId
 ) {}
 

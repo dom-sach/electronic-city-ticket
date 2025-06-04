@@ -58,8 +58,8 @@ class TicketControllerTest {
     @DisplayName("should return available ticket types")
     void shouldReturnTicketTypes() throws Exception {
         // given
-        TicketTypeDto type1 = new TicketTypeDto(1L, "Bilet 30-minutowy", "TIME", "NORMAL", BigDecimal.valueOf(3.5), 30);
-        TicketTypeDto type2 = new TicketTypeDto(2L, "Bilet 60-minutowy", "TIME", "DISCOUNT", BigDecimal.valueOf(5.0), 60);
+        TicketTypeDto type1 = new TicketTypeDto(1L, "Bilet 30-minutowy", TicketCategory.TIME, DiscountType.NORMAL, BigDecimal.valueOf(3.5), 30);
+        TicketTypeDto type2 = new TicketTypeDto(2L, "Bilet 60-minutowy", TicketCategory.TIME, DiscountType.DISCOUNT, BigDecimal.valueOf(5.0), 60);
         when(ticketService.getAvailableTicketTypes()).thenReturn(List.of(
                 TicketType.builder()
                         .name("Bilet 30-minutowy")

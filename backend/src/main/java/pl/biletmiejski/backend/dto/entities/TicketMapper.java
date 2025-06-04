@@ -11,7 +11,7 @@ public class TicketMapper {
                 ticket.getActivationDate(),
                 ticket.getValidUntil(),
                 ticket.isUsed(),
-                ticket.getTicketType() != null ? ticket.getTicketType().getName() : null,
+                ticket.getTicketType() != null ? ticket.getTicketType() : null,
                 ticket.getActivatedIn() != null ? ticket.getActivatedIn().getVehicleId() : null
         );
     }

@@ -21,9 +21,11 @@ public class Ticket {
     private String code; // Unikalny kod biletu (UUID jako string)
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "ticket_type_id")
     private TicketType ticketType;
 
     private LocalDateTime purchaseDate;
@@ -35,5 +37,5 @@ public class Ticket {
     private boolean used;
 
     @ManyToOne
-    private Vehicle activatedIn; // pojazd, w którym skasowano (dla jednorazowych/czasowych)
+    private Vehicle activatedIn;
 }
