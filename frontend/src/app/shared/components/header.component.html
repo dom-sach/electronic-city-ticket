@@ -10,7 +10,8 @@
 
     <a mat-button routerLink="/">Strona Główna</a>
     <a mat-button routerLink="/passenger">Oferta</a>
-    <a *ngIf="isLoggedIn()" mat-button routerLink="/passenger/my">Moje bilety</a>
+
+    <a  mat-button routerLink="/inspector">Kasowanie biletu</a>
 
     <ng-container *ngIf="!isLoggedIn(); else logged">
       <a mat-button routerLink="/register">Zarejestruj</a>

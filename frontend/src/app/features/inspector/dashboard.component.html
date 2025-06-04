@@ -1,1 +1,16 @@
-<p>dashboard works!</p>
+    <form (ngSubmit)="onValidate()" #form="ngForm" class="ticket-form">
+        <h2> Kasowanie biletu</h2>
+      <mat-form-field appearance="fill" >
+        <mat-label>Kod biletu</mat-label>
+        <input matInput name="code" [(ngModel)]="ticketCode" required />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="form.invalid">
+        Sprawdź ważność
+      </button>
+    </form>
+
+    <div *ngIf="result" class="result" [ngClass]="{ valid: result.valid, invalid: !result.valid }">
+      {{ result.message }}
+    </div>
+
