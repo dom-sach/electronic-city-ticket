@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import {Router, RouterModule} from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { AuthService} from '../../core/auth/auth.service';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -16,17 +16,25 @@ import { AuthService} from '../../core/auth/auth.service';
 export class HeaderComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
+  // Sprawdzanie, czy użytkownik jest zalogowany
   isLoggedIn(): boolean {
     return !!this.authService.getToken();
   }
+
+  // Sprawdzanie roli użytkownika
   hasRole(role: string): boolean {
-    console.log(this.authService.getUserRole());
-    return this.authService.getUserRole() == 'TICKET-INSPECTOR';
+    return this.authService.getUserRole() === role;
   }
 
-
+  // Wylogowywanie użytkownika
   logout(): void {
     this.authService.logout();
     this.router.navigateByUrl('/');
   }
+
+  // Pobieranie roli użytkownika
+  getUserRole(): string | null {
+    return this.authService.getUserRole();
+  }
 }
+

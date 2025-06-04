@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {firstValueFrom, tap} from 'rxjs';
+import { firstValueFrom, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { Observable } from 'rxjs';
-import {routes} from '../../app.routes';
+import { routes } from '../../app.routes';
 
 export interface JwtPayload {
   sub: string; // email
@@ -11,7 +11,6 @@ export interface JwtPayload {
   iat: number;
   role?: string;
 }
-
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -23,12 +22,17 @@ export class AuthService {
     return this.http.post(`${this.api}/register`, credentials);
   }
 
+  // Logowanie i zapisanie tokenu w localStorage
   login(credentials: { email: string; password: string }) {
     return this.http.post<{ token: string }>(`${this.api}/login`, credentials).pipe(
-      tap(res => localStorage.setItem('token', res.token))
+      tap(res => {
+        // Zapisz token w localStorage
+        localStorage.setItem('token', res.token);
+      })
     );
   }
 
+  // Metoda do wylogowania
   async logout(): Promise<void> {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -52,22 +56,32 @@ export class AuthService {
     }
   }
 
+  // Pobranie tokenu z localStorage
   getToken(): string | null {
     if (typeof window === 'undefined') return null;
     return localStorage.getItem('token');
   }
 
+  // Pobranie roli użytkownika z tokenu
   getUserRole(): string | null {
-    console.log(this.getToken());
     const token = this.getToken();
     if (!token) return null;
     try {
       const decoded = jwtDecode<JwtPayload>(token);
-      console.log(decoded);
       return decoded.role ?? null;
     } catch {
       return null;
     }
   }
 
+  // Dodanie tokenu do nagłówków w żądaniu
+  getAuthenticatedHttpOptions() {
+    const token = this.getToken();
+    if (!token) {
+      return {};
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return { headers };
+  }
 }
+

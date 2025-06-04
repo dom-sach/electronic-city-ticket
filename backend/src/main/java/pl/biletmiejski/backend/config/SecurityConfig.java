@@ -35,6 +35,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+
     private final UserRepository userRepository;
 
     @Bean

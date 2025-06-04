@@ -37,12 +37,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String username;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("No Authorization header or no Bearer token");  // Debugging log
             filterChain.doFilter(request, response);
             return;
         }
 
         jwt = authHeader.substring(7);
         username = jwtService.extractUsername(jwt);
+        System.out.println("Received JWT: " + jwt);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userRepository.findByEmail(username).orElse(null);
@@ -51,8 +53,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         userDetails, null, userDetails.getAuthorities()
                 );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                // setting up login context
+                // ustawienie kontekstu logowania
+                System.out.println("\nUser authenticated: " + username);  // Debugging log
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            } else {
+                System.out.println("\nToken validation failed or user not found");
             }
         }
 

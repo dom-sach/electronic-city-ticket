@@ -1,14 +1,26 @@
-<mat-card class="profile-card">
-  <div class="profile-content">
-    <div class="avatar">
-      <mat-icon>person</mat-icon>
-    </div>
-    <div class="user-info">
-      <h2>{{ user.name }}</h2>
-      <p>{{ user.email }}</p>
-      <button mat-raised-button (click)="goToTickets()">
-        Moje bilety
-      </button>
-    </div>
-  </div>
+<mat-card *ngIf="user">
+  <mat-card-header>
+    <mat-card-title>{{ user.email }}</mat-card-title>
+    <mat-card-subtitle>Rola: {{ user.role }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>Witaj, {{ user.email }}! Twoja rola to {{ user.role }}.</p>
+
+    <!-- Wyświetlanie biletów użytkownika -->
+    <mat-list>
+      <mat-list-item *ngFor="let ticket of tickets">
+        <p>{{ ticket.code }} - {{ ticket.purchaseDate }}</p>
+      </mat-list-item>
+    </mat-list>
+
+    <button mat-button (click)="goToTickets()">Zobacz bilety</button>
+  </mat-card-content>
 </mat-card>
+
+<!-- Jeśli użytkownik nie jest zalogowany -->
+<mat-card *ngIf="!user">
+  <mat-card-header>
+    <mat-card-title>Brak informacji o użytkowniku</mat-card-title>
+  </mat-card-header>
+</mat-card>
+

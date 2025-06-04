@@ -28,10 +28,10 @@ constructor(
       error: () => alert('Błąd pobierania oferty')
     });
 
-    this.ticketService.getMyTickets().subscribe({
-      next: data => this.myTickets = data,
-      error: () => alert('Błąd pobierania Twoich biletów')
-    });
+    // this.ticketService.getMyTickets().subscribe({
+    //   next: data => this.myTickets = data,
+    //   error: () => alert('Błąd pobierania Twoich biletów')
+    // });
   }
 
   buy(ticketTypeId: number): void {
