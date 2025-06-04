@@ -1,22 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService} from '../../../core/auth/auth.service';
+import { AuthService } from '../../../core/auth/auth.service';
 import { TicketService } from '../../../core/services/ticket.service';  // Dodaj serwis do pobierania biletów
 import { Router } from '@angular/router';
-import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
-import {MatButton} from '@angular/material/button';
-import {MatList, MatListItem} from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';  // Zaimportuj cały MatCardModule
+import { MatButtonModule } from '@angular/material/button';  // MatButtonModule
+import { MatListModule } from '@angular/material/list';  // Jeżeli używasz listy
+import { NgIf, NgForOf } from '@angular/common';  // Dodanie NgIf i NgFor dla Angulara
+import { DatePipe } from '@angular/common';  // Jeżeli używasz DatePipe
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   standalone: true,
   imports: [
-    MatCardHeader,
-    MatCard,
-    MatCardContent,
-    MatList,
-    MatListItem,
-    MatButton
+    MatCardModule,  // Zaimportuj cały MatCardModule
+    MatButtonModule,  // Zaimportuj MatButtonModule
+    MatListModule,  // Jeżeli używasz listy
+    NgIf,  // Użyj NgIf dla warunkowego renderowania
+    NgForOf,  // Użyj NgForOf dla iteracji po elementach
+    DatePipe  // Użyj DatePipe do formatowania dat
   ],
   styleUrls: ['./profile.component.scss']
 })
@@ -24,15 +26,23 @@ export class ProfileComponent implements OnInit {
   user: any = null;
   tickets: any[] = [];  // Lista biletów użytkownika
 
-  constructor(private authService: AuthService, private ticketService: TicketService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private ticketService: TicketService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // Pobieranie roli i email użytkownika
+    // Pobranie roli i email użytkownika
     const role = this.authService.getUserRole();
     const email = localStorage.getItem('email');
 
+    // Debugging logs
+    console.log('Rola:', role);
+    console.log('Email:', email);
+
     this.user = {
-      email: email ?? '',
+      email: email ?? 'Brak emaila',
       role: role ?? 'Brak roli'
     };
 
@@ -44,6 +54,7 @@ export class ProfileComponent implements OnInit {
   loadUserTickets(): void {
     this.ticketService.getUserTickets().subscribe({
       next: (data) => {
+        console.log('Bilety użytkownika:', data);  // Logowanie biletów
         this.tickets = data;
       },
       error: (error) => {

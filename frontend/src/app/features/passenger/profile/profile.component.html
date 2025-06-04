@@ -7,11 +7,14 @@
     <p>Witaj, {{ user.email }}! Twoja rola to {{ user.role }}.</p>
 
     <!-- Wyświetlanie biletów użytkownika -->
-    <mat-list>
+    <mat-list *ngIf="tickets && tickets.length > 0">
       <mat-list-item *ngFor="let ticket of tickets">
-        <p>{{ ticket.code }} - {{ ticket.purchaseDate }}</p>
+        <p>{{ ticket.code }} - {{ ticket.purchaseDate | date }}</p>
       </mat-list-item>
     </mat-list>
+
+    <!-- Jeśli brak biletów -->
+    <p *ngIf="tickets.length === 0">Brak biletów.</p>
 
     <button mat-button (click)="goToTickets()">Zobacz bilety</button>
   </mat-card-content>
