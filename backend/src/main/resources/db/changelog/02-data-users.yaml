@@ -7,35 +7,35 @@ databaseChangeLog:
             tableName: users
             columns:
               - column: { name: email, value: "user1@gmail.com" }
-              - column: { name: password, value: "$2a$10$D9KZpYu8ID8n6D3TtDgC..WZrRh6W2PP1U1V1VG/ls1LuKzZ5l11C" }  # hasło: pass123
+              - column: { name: password, value: "$2a$10$ZANgWczt/3vEsrjA8E4P2OZrWVZTom5Zd.Vyb43lkDPC0G/3csYay" }  # hasło: 123456
               - column: { name: role, value: "PASSENGER" }
         - insert:
             tableName: users
             columns:
               - column: { name: email, value: "user2@gmail.com" }
-              - column: { name: password, value: "$2a$10$D9KZpYu8ID8n6D3TtDgC..WZrRh6W2PP1U1V1VG/ls1LuKzZ5l11C" } # hasło: pass123
+              - column: { name: password, value: "$2a$10$ZANgWczt/3vEsrjA8E4P2OZrWVZTom5Zd.Vyb43lkDPC0G/3csYay" } # hasło: 123456
               - column: { name: role, value: "PASSENGER" }
         - insert:
             tableName: users
             columns:
               - column: { name: email, value: "user3@gmail.com" }
-              - column: { name: password, value: "$2a$10$D9KZpYu8ID8n6D3TtDgC..WZrRh6W2PP1U1V1VG/ls1LuKzZ5l11C" } # hasło: pass123
+              - column: { name: password, value: "$2a$10$ZANgWczt/3vEsrjA8E4P2OZrWVZTom5Zd.Vyb43lkDPC0G/3csYay" } # hasło: 123456
               - column: { name: role, value: "PASSENGER" }
         - insert:
             tableName: users
             columns:
               - column: { name: email, value: "inspector1@gmail.com" }
-              - column: { name: password, value: "$$2a$10$D9KZpYu8ID8n6D3TtDgC..WZrRh6W2PP1U1V1VG/ls1LuKzZ5l11C" } # hasło: pass123
+              - column: { name: password, value: "$2a$10$ZANgWczt/3vEsrjA8E4P2OZrWVZTom5Zd.Vyb43lkDPC0G/3csYay" } # hasło: 123456
               - column: { name: role, value: "TICKET_INSPECTOR" }
         - insert:
             tableName: users
             columns:
               - column: { name: email, value: "inspector2@gmail.com" }
-              - column: { name: password, value: "$2a$10$D9KZpYu8ID8n6D3TtDgC..WZrRh6W2PP1U1V1VG/ls1LuKzZ5l11C" } # hasło: pass123
+              - column: { name: password, value: "$2a$10$ZANgWczt/3vEsrjA8E4P2OZrWVZTom5Zd.Vyb43lkDPC0G/3csYay" } # hasło: 123456
               - column: { name: role, value: "TICKET_INSPECTOR" }
         - insert:
             tableName: users
             columns:
               - column: { name: email, value: "admin@gmail.com" }
-              - column: { name: password, value: "$2a$10$D9KZpYu8ID8n6D3TtDgC..WZrRh6W2PP1U1V1VG/ls1LuKzZ5l11C" } # hasło: pass123
+              - column: { name: password, value: "$2a$10$ZANgWczt/3vEsrjA8E4P2OZrWVZTom5Zd.Vyb43lkDPC0G/3csYay" } # hasło: 123456
               - column: { name: role, value: "ADMINISTRATOR" }

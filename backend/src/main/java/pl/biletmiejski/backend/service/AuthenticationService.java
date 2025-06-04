@@ -22,7 +22,7 @@ public class AuthenticationService {
 
     // register
     public AuthenticationResponse register(RegisterRequest request) {
-        Role role = Role.valueOf(request.getRole().toUpperCase()); // np. PASSENGER
+        Role role = request.getRole();
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))

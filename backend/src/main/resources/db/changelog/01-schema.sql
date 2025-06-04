@@ -23,7 +23,7 @@ CREATE TABLE users (
                        id SERIAL PRIMARY KEY,
                        email VARCHAR(255) NOT NULL UNIQUE,
                        password VARCHAR(255) NOT NULL,
-                       role role NOT NULL
+                       role VARCHAR(100) NOT NULL
 );
 
 -- Tabela tokenów (dla JWT)
@@ -39,8 +39,8 @@ CREATE TABLE token (
 CREATE TABLE ticket_type (
                              id SERIAL PRIMARY KEY,
                              name VARCHAR(255) NOT NULL,
-                             category ticket_category NOT NULL,
-                             discount_type discount_type NOT NULL,
+                             category VARCHAR(100) NOT NULL,
+                             discount_type VARCHAR(100) NOT NULL,
                              price NUMERIC(10, 2) NOT NULL,
                              duration_minutes INTEGER
 );

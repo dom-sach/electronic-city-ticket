@@ -2,6 +2,8 @@ package pl.biletmiejski.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 
@@ -19,9 +21,12 @@ public class TicketType {
     private String name; // np. "Bilet 30-minutowy ulgowy"
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TicketCategory category; // ONE_TIME / TIME / PERIOD
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.OTHER)
+    @Column(nullable = false, columnDefinition = "discount_type")
     private DiscountType discountType; // NORMAL / DISCOUNT
 
     private BigDecimal price;

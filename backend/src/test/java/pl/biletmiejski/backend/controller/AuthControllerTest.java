@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.biletmiejski.backend.dto.*;
+import pl.biletmiejski.backend.model.Role;
 import pl.biletmiejski.backend.service.AuthenticationService;
 
 import static org.mockito.Mockito.*;
@@ -42,7 +43,7 @@ public class AuthControllerTest {
 
     @Test
     void shouldRegisterUser() throws Exception {
-        RegisterRequest request = new RegisterRequest("test@example.com", "password", "PASSENGER");
+        RegisterRequest request = new RegisterRequest("test@example.com", "password", Role.PASSENGER);
         AuthenticationResponse response = AuthenticationResponse.builder().token("jwt-token").build();
 
         when(authService.register(any(RegisterRequest.class))).thenReturn(response);

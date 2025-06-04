@@ -43,7 +43,7 @@ class AuthenticationServiceTest {
 
     @Test
     void shouldRegisterNewUserAndReturnToken() {
-        RegisterRequest request = new RegisterRequest("test@example.com", "password", "PASSENGER");
+        RegisterRequest request = new RegisterRequest("test@example.com", "password", Role.PASSENGER);
 
         when(passwordEncoder.encode(anyString())).thenReturn("encoded-password");
         when(jwtService.generateToken(anyString())).thenReturn("jwt-token");
