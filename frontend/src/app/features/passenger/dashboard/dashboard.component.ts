@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TicketService} from '../../core/services/ticket.service';import { MatCardModule } from '@angular/material/card';
+import { TicketService} from '../../../core/services/ticket.service';import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import {TicketType, Ticket} from '../../core/models/ticket.model';
-import { TicketEditDialogComponent } from './ticket-edit-dialog.component';
+import {TicketType, Ticket} from '../../../core/models/ticket.model';
+import { TicketEditDialogComponent } from '../ticket-edit-dialog/ticket-edit-dialog.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @Component({

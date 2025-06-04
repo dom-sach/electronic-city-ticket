@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: 'passenger',
     // canActivate: [authGuard],
-    loadComponent: () => import('./features/passenger/dashboard.component').then(m => m.DashboardComponent),
+    loadComponent: () => import('./features/passenger/dashboard/dashboard.component').then(m => m.DashboardComponent),
   },
   {
     path: 'inspector',
@@ -25,19 +25,19 @@ export const routes: Routes = [
   {
     path: 'passenger/activate',
     canActivate: [authGuard],
-    loadComponent: () => import('./features/passenger/ticket-activate.component').then(m => m.TicketActivateComponent)
+    loadComponent: () => import('./features/passenger/ticket-activate/ticket-activate.component').then(m => m.TicketActivateComponent)
   },
   {
     path: 'profile',
     canActivate: [authGuard],
-    loadComponent: () => import('./features/passenger/profile.component').then(m => m.ProfileComponent)
+    loadComponent: () => import('./features/passenger/profile/profile.component').then(m => m.ProfileComponent)
   },
   {
     path: 'register',
-    loadComponent: () => import('./features/auth/register.component').then(m => m.RegisterComponent)
+    loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent)
   },
   {
     path: 'login',
-    loadComponent: () => import('./features/auth/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
   }
 ];
