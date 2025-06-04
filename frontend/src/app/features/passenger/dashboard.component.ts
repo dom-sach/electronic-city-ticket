@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TicketService} from '../../core/services/ticket.service';import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import {TicketType, Ticket} from '../../core/models/ticket.model';
+import { TicketEditDialogComponent } from './ticket-edit-dialog.component';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-passenger-dashboard',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule,  MatDialogModule, MatDialogContent],
   templateUrl: './dashboard.component.html',
   styleUrls: [`./dashboard.component.scss`]
 })
@@ -15,7 +17,12 @@ export class DashboardComponent implements OnInit {
   tickets: TicketType[] = [];
   myTickets: any[] = [];
 
-  constructor(private ticketService: TicketService) {}
+constructor(
+  private ticketService: TicketService,
+  private dialog: MatDialog,
+) {}
+
+
 
   ngOnInit(): void {
     this.ticketService.getTicketTypes().subscribe({
@@ -37,6 +44,25 @@ export class DashboardComponent implements OnInit {
       },
       error: () => alert('Błąd przy zakupie biletu')
     });
+  }
+
+  edit(ticketTypeId: number): void{
+    const ticket = this.tickets.find(t => t.id === ticketTypeId);
+    const dialogRef = this.dialog.open(TicketEditDialogComponent, {
+      width: '500px',
+      height: '800px',
+      data: { ...ticket }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // np. aktualizacja lokalna:
+        Object.assign(ticketTypeId, result);
+        // lub wywołanie serwisu:
+        // this.ticketService.updateTicket(ticket.id, result).subscribe(...)
+      }
+    });
+
   }
 
   getTicketStatus(b: any): string {

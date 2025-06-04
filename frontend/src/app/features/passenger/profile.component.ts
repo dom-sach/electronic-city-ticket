@@ -21,6 +21,6 @@ export class ProfileComponent {
   constructor(private router: Router) {}
 
   goToTickets() {
-    this.router.navigateByUrl('/passenger/my');
+    this.router.navigateByUrl('/passenger');
   }
 }
