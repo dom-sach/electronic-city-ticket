@@ -4,13 +4,13 @@
         <mat-label>Kod biletu</mat-label>
         <input matInput name="code" [(ngModel)]="ticketCode" required />
       </mat-form-field>
+      <mat-form-field appearance="fill" >
+        <mat-label>Numer autobusu</mat-label>
+        <input matInput name="code" [(ngModel)]="vehicleId" required />
+      </mat-form-field>
 
       <button mat-raised-button color="primary" [disabled]="form.invalid">
         Sprawdź ważność
       </button>
     </form>
-
-    <div *ngIf="result" class="result" [ngClass]="{ valid: result.valid, invalid: !result.valid }">
-      {{ result.message }}
-    </div>
 

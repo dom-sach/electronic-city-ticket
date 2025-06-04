@@ -4,7 +4,7 @@ import {ReactiveFormsModule, FormBuilder, Validators, FormGroup} from '@angular/
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { TicketService } from '../../core/services/ticket.service';
+import { TicketService } from '../../../core/services/ticket.service';
 
 @Component({
   selector: 'app-ticket-activate',

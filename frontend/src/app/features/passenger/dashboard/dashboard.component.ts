@@ -22,8 +22,6 @@ constructor(
   private dialog: MatDialog,
 ) {}
 
-
-
   ngOnInit(): void {
     this.ticketService.getTicketTypes().subscribe({
       next: types => this.tickets = types,
@@ -56,10 +54,7 @@ constructor(
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // np. aktualizacja lokalna:
-        Object.assign(ticketTypeId, result);
-        // lub wywołanie serwisu:
-        // this.ticketService.updateTicket(ticket.id, result).subscribe(...)
+
       }
     });
 
