@@ -45,8 +45,16 @@ class AuthenticationServiceTest {
     void shouldRegisterNewUserAndReturnToken() {
         RegisterRequest request = new RegisterRequest("test@example.com", "password", Role.PASSENGER);
 
+        String email = "user@example.com";
+        String password = "password";
+        String encodedPassword = "encoded-password";
+        User mockUser = new User();  // Stworzenie mocka obiektu User
+        mockUser.setEmail(email);
+        mockUser.setPassword(encodedPassword);
+        mockUser.setRole(Role.PASSENGER);  // Ustawienie roli
+
         when(passwordEncoder.encode(anyString())).thenReturn("encoded-password");
-        when(jwtService.generateToken(anyString())).thenReturn("jwt-token");
+        when(jwtService.generateToken(mockUser)).thenReturn("jwt-token");
 
         AuthenticationResponse response = authenticationService.register(request);
 
@@ -68,7 +76,7 @@ class AuthenticationServiceTest {
 
         when(authenticationManager.authenticate(any())).thenReturn(mock(Authentication.class));
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
-        when(jwtService.generateToken(anyString())).thenReturn("jwt-token");
+        when(jwtService.generateToken(user)).thenReturn("jwt-token");
 
         AuthenticationResponse response = authenticationService.authenticate(request);
 

@@ -7,7 +7,9 @@ import org.springframework.security.core.token.TokenService;
 import org.springframework.web.bind.annotation.*;
 import pl.biletmiejski.backend.dto.*;
 import pl.biletmiejski.backend.model.Token;
+import pl.biletmiejski.backend.model.User;
 import pl.biletmiejski.backend.repository.TokenRepository;
+import pl.biletmiejski.backend.security.JwtService;
 import pl.biletmiejski.backend.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -18,6 +20,7 @@ public class AuthController {
 
     private final AuthenticationService authService;
     private final TokenRepository tokenRepository;
+    private final JwtService jwtService;
 
     // REGISTER
     @Operation(summary = "Rejestracja", description = "Umożliwia rejestrację nowego użytkownika")

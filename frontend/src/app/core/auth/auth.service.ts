@@ -7,9 +7,9 @@ import { routes } from '../../app.routes';
 
 export interface JwtPayload {
   sub: string; // email
-  exp: number;
   iat: number;
   role?: string;
+  exp: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -24,10 +24,16 @@ export class AuthService {
 
   // Logowanie i zapisanie tokenu w localStorage
   login(credentials: { email: string; password: string }) {
-    return this.http.post<{ token: string }>(`${this.api}/login`, credentials).pipe(
+    return this.http.post<{ token: string, email: string, role: string }>(`${this.api}/login`, credentials).pipe(
       tap(res => {
-        // Zapisz token w localStorage
+        // Zapisz token i dane użytkownika w localStorage
         localStorage.setItem('token', res.token);
+        // Rozkodowanie tokenu JWT, aby uzyskać dane użytkownika
+        const decodedToken = jwtDecode<JwtPayload>(res.token);
+        console.log(decodedToken)
+        localStorage.setItem('email', decodedToken.sub);
+        localStorage.setItem('role', decodedToken.role || '');
+        console.log("[INFO] Zalogowano uzytkownika: ", res.token, res.email, res.role)
       })
     );
   }
@@ -52,27 +58,29 @@ export class AuthService {
       console.warn('Wylogowywanie nie powiodło się lub token był już nieważny:', err);
     } finally {
       localStorage.removeItem('token');
+      localStorage.removeItem('email');
+      localStorage.removeItem('role');
       window.location.href = '/';
     }
   }
 
   // Pobranie tokenu z localStorage
   getToken(): string | null {
-    if (typeof window === 'undefined') return null;
     return localStorage.getItem('token');
   }
 
-  // Pobranie roli użytkownika z tokenu
+  // Pobranie roli użytkownika z localStorage
   getUserRole(): string | null {
-    const token = this.getToken();
-    if (!token) return null;
-    try {
-      const decoded = jwtDecode<JwtPayload>(token);
-      return decoded.role ?? null;
-    } catch {
-      return null;
-    }
+    const role = localStorage.getItem('role');
+    return role ?? null;
   }
+
+  // Pobranie emaila użytkownika z localStorage
+  getUserEmail(): string | null {
+    const email = localStorage.getItem('email');
+    return email ?? null;
+  }
+
 
   // Dodanie tokenu do nagłówków w żądaniu
   getAuthenticatedHttpOptions() {

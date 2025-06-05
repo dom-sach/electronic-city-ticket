@@ -31,7 +31,7 @@ public class AuthenticationService {
 
         userRepository.save(user);
 
-        String jwt = jwtService.generateToken(user.getEmail());
+        String jwt = jwtService.generateToken(user);
         Token token = Token.builder()
                 .token(jwt)
                 .user(user)
@@ -67,7 +67,7 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
 
         // create new jwt token
-        String jwt = jwtService.generateToken(user.getEmail());
+        String jwt = jwtService.generateToken(user);
         tokenRepository.save(Token.builder()
                 .token(jwt)
                 .user(user)

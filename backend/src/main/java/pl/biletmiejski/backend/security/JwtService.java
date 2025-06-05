@@ -3,23 +3,30 @@ package pl.biletmiejski.backend.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
+import pl.biletmiejski.backend.model.User;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
+import java.security.Key;
 
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "supersecretkeysupersecretkey1234"; // min. 256-bit
+    private final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     private Key getSignInKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+        return SECRET_KEY;
     }
 
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
+
 
     public <T> T extractClaim(String token, Function<Claims, T> resolver) {
         final Claims claims = extractAllClaims(token);
@@ -34,10 +41,11 @@ public class JwtService {
                 .getBody();
     }
 
-    public String generateToken(String username) {
+    public String generateToken(User user) {
         return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setSubject(user.getEmail())  // Dodajemy email użytkownika jako sub
+                .claim("role", user.getRole())  // Dodajemy rolę do tokenu
+                .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 24h
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
@@ -50,4 +58,5 @@ public class JwtService {
     private boolean isTokenExpired(String token) {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }
+
 }

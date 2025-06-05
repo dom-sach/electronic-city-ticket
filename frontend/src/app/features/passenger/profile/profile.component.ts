@@ -13,12 +13,12 @@ import { DatePipe } from '@angular/common';  // Jeżeli używasz DatePipe
   templateUrl: './profile.component.html',
   standalone: true,
   imports: [
-    MatCardModule,  // Zaimportuj cały MatCardModule
-    MatButtonModule,  // Zaimportuj MatButtonModule
-    MatListModule,  // Jeżeli używasz listy
-    NgIf,  // Użyj NgIf dla warunkowego renderowania
-    NgForOf,  // Użyj NgForOf dla iteracji po elementach
-    DatePipe  // Użyj DatePipe do formatowania dat
+    MatCardModule,
+    MatButtonModule,
+    MatListModule,
+    NgIf,
+    NgForOf,
+    DatePipe
   ],
   styleUrls: ['./profile.component.scss']
 })
@@ -35,16 +35,16 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     // Pobranie roli i email użytkownika
     const role = this.authService.getUserRole();
-    const email = localStorage.getItem('email');
-
-    // Debugging logs
-    console.log('Rola:', role);
-    console.log('Email:', email);
+    const email = this.authService.getUserEmail();
 
     this.user = {
       email: email ?? 'Brak emaila',
       role: role ?? 'Brak roli'
     };
+
+    // Debugging logs
+    console.log('Rola:', role);
+    console.log('Email:', email);
 
     // Pobranie biletów użytkownika
     this.loadUserTickets();
