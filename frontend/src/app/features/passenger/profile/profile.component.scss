@@ -1,57 +1,91 @@
-.profile-card {
-  max-width: 90%;
-  background: white;
-  margin: auto;
-  margin-top: 3rem;
-  padding: 4rem;
+#main-container{
+
 }
 
-.profile-content {
-  display: flex;
-  align-items: center;
-  gap: 3rem;
+#user-info {
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  background-color: #e7e7e7;
 }
 
-.avatar {
-  background-color: #e0e0e0;
-  border-radius: 50%;
-  width: 8rem;
-  height: 8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#user-email {
+  font-size: 16pt;
+  font-weight: bold;
 }
 
-.avatar mat-icon {
-  font-size: 6rem;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  align-content: center;
-  text-align: center;
-  width: 8rem;
-  height: 8rem;
-  color: #616161;
+#user-role {
+  font-size: 12pt;
+  margin-top: 10pt;
 }
 
-.user-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.user-info h2 {
+#user-tickets-container {
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  padding-right: 5%;
   margin: 0;
-  font-size: 1.5rem;
 }
 
-.user-info p {
-  margin: 0.5rem 0;
-  color: #555;
+button mat-flat-button {
+  background: #1a237e;
+}
+
+#btn-buy-ticket {
+  width: 20%;
+  text-align: center;
+  margin-left: 5%;
+  margin-bottom: 2%;
+  margin-top: 2%;
+}
+
+#ticket-purchase-text {
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+
+#ticket-code-text {
 }
 
 mat-raised-button {
   background: none;
   border: #2f2f2f 1px solid;
   color: white;
+}
+
+mat-card-content p {
+  font-size: 15pt;
+}
+
+.ticket-card {
+  margin: 10px;
+  display: inline-block;
+  width: 300px;
+}
+
+.ticket-card mat-card-header {
+  background-color: #f2f2f2;
+}
+
+.ticket-card .inactive {
+  color: gray;
+}
+
+.ticket-card .active {
+  color: green;
+}
+
+.ticket-card .expired {
+  color: red;
+}
+
+.ticket-card p {
+  font-size: 14px;
+}
+
+.ticket-card mat-card-title {
+  font-size: 18px;
+  font-weight: bold;
 }

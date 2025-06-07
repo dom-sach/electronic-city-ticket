@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+
 @Service
 @RequiredArgsConstructor
 public class TicketService {
@@ -67,23 +68,30 @@ public class TicketService {
 
         // weryfikacja czy user jest właścicielem biletu który chce skasować
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("\n[TicketService] Found user from context: " + userEmail);
+
         User loggedUser = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        System.out.println("\n[TicketService] User found in database: " + loggedUser);
 
+        System.out.println("\n[TicketService] Looking for ticket with code: " + code);
         Ticket ticket = ticketRepository.findByCode(code)
                 .orElseThrow(() -> new RuntimeException("Ticket not found"));
+        System.out.println("\n[TicketService] Ticket found in database: " + ticket);
 
-        // user nie jest właściciele
+        // user is not an owner
         if (!ticket.getUser().getId().equals(loggedUser.getId())) {
+            System.out.println("\n[TicketService] User is not an owner of this ticket");
             throw new AccessDeniedException("You are not the owner of this ticket");
         }
 
-        // ticket już wykorzystany
+        // ticket is already used
         if (ticket.getActivationDate() != null) {
+            System.out.println("\n[TicketService] Ticket already activated");
             throw new RuntimeException("Ticket already activated");
         }
 
-        // nie można aktywować biletu okresowego
+        // ticket is of type 'period'
         TicketType type = ticket.getTicketType();
         if (type.getCategory() == TicketCategory.PERIOD) {
             throw new RuntimeException("Periodic tickets do not need activation");
@@ -93,7 +101,7 @@ public class TicketService {
                 .orElseGet(() -> vehicleRepository.save(
                         Vehicle.builder().vehicleId(vehicleId).build()));
 
-        // aktywacja
+        // activation
         ticket.setActivationDate(LocalDateTime.now());
         ticket.setActivatedIn(vehicle);
         ticket.setUsed(true);
@@ -102,6 +110,7 @@ public class TicketService {
             ticket.setValidUntil(ticket.getActivationDate().plusMinutes(type.getDurationMinutes()));
         }
 
+        System.out.println("\n[TicketService] Activated ticket: " + ticket);
         return ticketRepository.save(ticket);
     }
 

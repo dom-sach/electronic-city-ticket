@@ -58,6 +58,7 @@ constructor(
       }
     });
 
+
   }
 
   getTicketStatus(b: any): string {
@@ -66,4 +67,6 @@ constructor(
     if (b.validUntil && new Date(b.validUntil) < now) return 'Wygasły';
     return 'Aktywny';
   }
+
+
 }

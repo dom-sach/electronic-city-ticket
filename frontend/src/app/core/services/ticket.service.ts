@@ -6,12 +6,12 @@ import {AuthService} from '../auth/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class TicketService {
-  private api = 'http://localhost:8080/api/tickets';
+  private api = 'http://localhost:8080/api';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getTicketTypes(): Observable<TicketType[]> {
-    return this.http.get<TicketType[]>(`${this.api}/types`);
+    return this.http.get<TicketType[]>(`${this.api}/tickets/types`);
   }
 
   // getMyTickets(): Observable<Ticket[]> {
@@ -20,7 +20,7 @@ export class TicketService {
 
   getUserTickets(): Observable<any[]> {
     const headers = this.authService.getAuthenticatedHttpOptions();  // Pobranie tokenu
-    return this.http.get<any[]>(`${this.api}/my`, headers);
+    return this.http.get<any[]>(`${this.api}/tickets/my`, headers);
   }
 
   loadUserTickets() {
@@ -39,12 +39,13 @@ export class TicketService {
   }
 
   buyTicket(ticketTypeId: number): Observable<Ticket> {
-    return this.http.post<Ticket>(`${this.api}/buy`, { ticketTypeId });
+    return this.http.post<Ticket>(`${this.api}/tickets/buy`, { ticketTypeId });
   }
 
   activateTicket(code: string, vehicleId: string): Observable<any> {
+    console.log("[ticket.service] Received data for activation: ", code, vehicleId)
     return this.http.post(`${this.api}/validate/activate`, {
-      ticketCode: code,
+      code: code,
       vehicleId: vehicleId
     });
   }

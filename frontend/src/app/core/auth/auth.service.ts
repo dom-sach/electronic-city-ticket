@@ -4,6 +4,7 @@ import { firstValueFrom, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { Observable } from 'rxjs';
 import { routes } from '../../app.routes';
+import { LocalStorageService} from '../services/local-storage.service';
 
 export interface JwtPayload {
   sub: string; // email
@@ -16,7 +17,7 @@ export interface JwtPayload {
 export class AuthService {
   private api = 'http://localhost:8080/api/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
 
   register(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.api}/register`, credentials);
@@ -27,12 +28,12 @@ export class AuthService {
     return this.http.post<{ token: string, email: string, role: string }>(`${this.api}/login`, credentials).pipe(
       tap(res => {
         // Zapisz token i dane użytkownika w localStorage
-        localStorage.setItem('token', res.token);
+        this.localStorageService.setItem('token', res.token);
         // Rozkodowanie tokenu JWT, aby uzyskać dane użytkownika
         const decodedToken = jwtDecode<JwtPayload>(res.token);
         console.log(decodedToken)
-        localStorage.setItem('email', decodedToken.sub);
-        localStorage.setItem('role', decodedToken.role || '');
+        this.localStorageService.setItem('email', decodedToken.sub);
+        this.localStorageService.setItem('role', decodedToken.role || '');
         console.log("[INFO] Zalogowano uzytkownika: ", res.token, res.email, res.role)
       })
     );
@@ -40,7 +41,7 @@ export class AuthService {
 
   // Metoda do wylogowania
   async logout(): Promise<void> {
-    const token = localStorage.getItem('token');
+    const token = this.localStorageService.getItem('token');
     if (!token) {
       window.location.href = '/';
       return;
@@ -57,27 +58,27 @@ export class AuthService {
     } catch (err) {
       console.warn('Wylogowywanie nie powiodło się lub token był już nieważny:', err);
     } finally {
-      localStorage.removeItem('token');
-      localStorage.removeItem('email');
-      localStorage.removeItem('role');
+      this.localStorageService.removeItem('token');
+      this.localStorageService.removeItem('email');
+      this.localStorageService.removeItem('role');
       window.location.href = '/';
     }
   }
 
   // Pobranie tokenu z localStorage
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return this.localStorageService.getItem('token');
   }
 
   // Pobranie roli użytkownika z localStorage
   getUserRole(): string | null {
-    const role = localStorage.getItem('role');
+    const role = this.localStorageService.getItem('role');
     return role ?? null;
   }
 
   // Pobranie emaila użytkownika z localStorage
   getUserEmail(): string | null {
-    const email = localStorage.getItem('email');
+    const email = this.localStorageService.getItem('email');
     return email ?? null;
   }
 
