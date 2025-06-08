@@ -1,6 +1,7 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import {authGuard} from './core/guards/auth.guard';
+import {UserListComponent} from './features/admin/user-list/user-list.component';
 
 export const routes: Routes = [
   {
@@ -40,4 +41,8 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
   },
+  {
+    path: 'admin/users',
+    component: UserListComponent
+  }
 ];

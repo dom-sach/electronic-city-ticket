@@ -1,13 +1,21 @@
-<h2 style="text-align:center;">Dostępna oferta biletowa</h2>
+<h2 id="page-title">Dostępna oferta biletowa</h2>
 
 <div class="ticket-list">
-  <mat-card *ngFor="let ticket of tickets" class="ticket-card">
+  <mat-card
+    *ngFor="let ticket of tickets"
+    class="ticket-card"
+    [ngClass]="{'ticket-type-time': ticket.category==='TIME',
+    'ticket-type-onetime': ticket.category==='ONE_TIME',
+    'ticket-type-period': ticket.category==='PERIOD'
+    }"
+  >
     <mat-card-title>{{ ticket.name }}</mat-card-title>
+
     <mat-card-content>
-      <p>Typ: {{ ticket.category }}</p>
-      <p>Zniżka: {{ ticket.discountType }}</p>
-      <p>Cena: {{ ticket.price | currency:'PLN':'symbol':'1.2-2' }}</p>
-      <p *ngIf="ticket.durationMinutes">Czas trwania: {{ ticket.durationMinutes }} minut</p>
+      <p> <strong>Typ:</strong> {{ ticket.category }}</p>
+      <p> <strong>Zniżka:</strong> {{ ticket.discountType }}</p>
+      <p> <strong>Cena:</strong> {{ ticket.price | currency:'PLN ':'symbol':'1.2-2' }}</p>
+      <p *ngIf="ticket.durationMinutes"> <strong>Czas trwania:</strong> {{ ticket.durationMinutes }} minut</p>
     </mat-card-content>
     <mat-card-actions>
       <button *ngIf="user.email && user.role && user.role=='PASSENGER'" mat-raised-button color="primary" (click)="buy(ticket.id)">Kup</button>

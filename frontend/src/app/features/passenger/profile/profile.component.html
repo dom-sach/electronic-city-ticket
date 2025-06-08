@@ -4,62 +4,79 @@
     <mat-card-subtitle id="user-role">{{ user.role=="PASSENGER"? "Jesteś zalogowany jako pasażer." : "" }}</mat-card-subtitle>
   </mat-card-header>
 
-  <mat-card-content id="user-tickets-container">
+  <!-- User tickets list -->
+  <ng-container *ngIf="user.role!='ADMINISTRATOR'">
+    <mat-card-content id="user-tickets-container">
+        <mat-card *ngFor="let ticket of tickets" class="ticket-card">
+          <mat-card-header>
+            <mat-card-title>{{ ticket.ticketTypeName.name }}</mat-card-title>
+          </mat-card-header>
 
+          <mat-card-content>
+            <!-- Ticket purchase date -->
+            <p id="ticket-purchase-text">
+              <strong>
+                Data zakupu:
+              </strong>
+              {{ ticket.purchaseDate | date: 'dd-MM-yyyy' }}
+            </p>
 
-    <!-- User tickets list -->
-    <mat-card *ngFor="let ticket of tickets" class="ticket-card">
-      <mat-card-header>
-        <mat-card-title>{{ ticket.ticketTypeName.name }}</mat-card-title>
-      </mat-card-header>
+            <!-- Unique ticket code -->
+            <p id="ticket-code-text">
+              <strong>Kod biletu:</strong> {{ticket.code}}
+            </p>
+
+            <!-- Ticket status -->
+            <p [ngClass]="{
+            'inactive': !ticket.activationDate,
+            'active': ticket.used && !ticket.activationDate,
+            'expired': ticket.used
+          }">
+              <span *ngIf="!ticket.used && !isTicketExpired(ticket) && ticket.ticketTypeName.category !== 'PERIOD'">Nieaktywowany</span>
+              <span *ngIf="ticket.used && !ticket.activationDate && !isTicketExpired(ticket)">Aktywny</span>
+              <span *ngIf="isTicketExpired(ticket)">Wygasły</span>
+            </p>
+
+            <!-- Valid until date -->
+            <p *ngIf="ticket.validUntil"><strong>Ważny do:</strong> {{ ticket.validUntil | date: 'dd-MM-yyyy' }}</p>
+
+            <!-- Vehicle assigned to ticket -->
+            <p *ngIf="ticket.activatedIn"><strong>Pojazd:</strong> {{ ticket.activatedIn.vehicleId }}</p>
+
+            <!-- Activate ticket button (if ticket unused and not activated yet) -->
+            <button
+              *ngIf="!ticket.used && ticket.ticketTypeName.category !== 'PERIOD'"
+              mat-button
+              color="primary"
+              (click)="activateTicket(ticket)">
+              Aktywuj bilet
+            </button>
+
+          </mat-card-content>
+        </mat-card>
+
+      <!-- Jeśli brak biletów -->
+      <p *ngIf="tickets.length === 0">Brak biletów.</p>
+    </mat-card-content>
+
+    <button class="btn-classic" mat-raised-button color="primary" (click)="goToTickets()">Oferta biletów</button>
+  </ng-container>
+
+  <!-- If user is ADMINISTRATOR -->
+  <ng-container *ngIf="user.role==='ADMINISTRATOR'">
+    <mat-card>
 
       <mat-card-content>
-        <!-- Ticket purchase date -->
-        <p id="ticket-purchase-text">
-          <strong>
-            Data zakupu:
-          </strong>
-          {{ ticket.purchaseDate | date: 'dd-MM-yyyy' }}
-        </p>
-
-        <!-- Unique ticket code -->
-        <p id="ticket-code-text">
-          <strong>Kod biletu:</strong> {{ticket.code}}
-        </p>
-
-        <!-- Ticket status -->
-        <p [ngClass]="{
-          'inactive': !ticket.activationDate,
-          'active': ticket.used && !ticket.activationDate,
-          'expired': ticket.used
-        }">
-          <span *ngIf="!ticket.used && !isTicketExpired(ticket) && ticket.ticketTypeName.category !== 'PERIOD'">Nieaktywowany</span>
-          <span *ngIf="ticket.used && !ticket.activationDate && !isTicketExpired(ticket)">Aktywny</span>
-          <span *ngIf="isTicketExpired(ticket)">Wygasły</span>
-        </p>
-
-        <!-- Valid until date -->
-        <p *ngIf="ticket.validUntil"><strong>Ważny do:</strong> {{ ticket.validUntil | date: 'dd-MM-yyyy' }}</p>
-
-        <!-- Vehicle assigned to ticket -->
-        <p *ngIf="ticket.activatedIn"><strong>Pojazd:</strong> {{ ticket.activatedIn.vehicleId }}</p>
-
-        <!-- Activate ticket button (if ticket unused and not activated yet) -->
-        <button
-          *ngIf="!ticket.used && ticket.ticketTypeName.category !== 'PERIOD'"
-          mat-button
-          color="primary"
-          (click)="activateTicket(ticket)">
-          Aktywuj bilet
-        </button>
-
+        <mat-card-title>
+          Witaj Administratorze! Co chcesz zrobić?
+        </mat-card-title>
+        <button class="btn-classic" mat-raised-button color="primary" (click)="goToTickets()">Edytuj ofertę biletową -></button>
+        <button class="btn-classic" mat-raised-button color="primary" (click)="goToUsersList()">Przeglądaj użytkowników -></button>
       </mat-card-content>
     </mat-card>
 
-    <!-- Jeśli brak biletów -->
-    <p *ngIf="tickets.length === 0">Brak biletów.</p>
-  </mat-card-content>
-  <button id="btn-buy-ticket" mat-raised-button color="primary" (click)="goToTickets()">Oferta biletów</button>
+  </ng-container>
+
 </mat-card>
 
 <!-- Jeśli użytkownik nie jest zalogowany -->

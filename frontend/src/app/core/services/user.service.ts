@@ -13,11 +13,15 @@ interface User {
 })
 export class UserService {
 
-  private apiUrl = '/api/user/current';
+  private apiUrl = 'http://localhost:8080/api/user';
 
   constructor(private http: HttpClient) {}
 
   getCurrentUser(): Observable<User> {
-    return this.http.get<User>(this.apiUrl);
+    return this.http.get<User>(this.apiUrl + '/current');
+  }
+
+  getAllUsers(): Observable<Map<string, User[]>> {
+    return this.http.get<Map<string, User[]>>(this.apiUrl);
   }
 }

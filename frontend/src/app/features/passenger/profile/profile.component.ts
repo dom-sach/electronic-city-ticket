@@ -82,6 +82,10 @@ export class ProfileComponent implements OnInit {
     this.router.navigateByUrl('/passenger');
   }
 
+  goToUsersList() {
+    this.router.navigateByUrl('/admin/users')
+  }
+
   activateTicket(ticket: any): void {
     console.log("[profile.component] Activate ticket with code: " + ticket.code);
     if (!ticket.activationDate && !ticket.used && ticket.ticketTypeName !== 'PERIOD') {
