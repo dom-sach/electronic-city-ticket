@@ -9,7 +9,13 @@ import {NgIf, NgForOf, NgClass} from '@angular/common';  // Dodanie NgIf i NgFor
 import { DatePipe } from '@angular/common';  // Jeżeli używasz DatePipe
 import {InfoPopupComponent} from '../../../shared/components/info-popup/info-popup.component';
 import {MatDialog} from '@angular/material/dialog';
-import {Ticket} from '../../../core/models/ticket.model';
+import {Ticket, Vehicle} from '../../../core/models/ticket.model';
+import {MatInput} from '@angular/material/input';
+import {VehicleService} from '../../../core/services/vehicle.service';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatOption} from '@angular/material/core';
+import {MatSelect} from '@angular/material/select';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -23,16 +29,27 @@ import {Ticket} from '../../../core/models/ticket.model';
     NgForOf,
     DatePipe,
     NgClass,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatOption,
+    MatSelect,
+    FormsModule,
   ],
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
   user: any = null; // currently logged-in user
   tickets: any[] = []; // user's tickets
+  vehicles: Vehicle[] = [];
+  filteredVehicles: Vehicle[] = [];
+  selectedVehicleId: string | null = null;
+  searchVehicle: string = '';
 
   constructor(
     private authService: AuthService,
     private ticketService: TicketService,
+    private vehicleService: VehicleService,
     private router: Router,
     private dialog: MatDialog,
   ) {}
@@ -53,6 +70,25 @@ export class ProfileComponent implements OnInit {
 
     // Get user's tickets
     this.loadUserTickets();
+
+    // Load all vehicles
+    this.loadVehicles();
+  }
+
+
+  loadVehicles(): void {
+    this.vehicleService.getVehicles().subscribe({
+      next: (data) => {
+        this.vehicles = data;
+        this.filteredVehicles = data;
+      },
+      error: (error) => {
+        console.error('[profile.component] Couldn\'t load vehicles ', error);
+      },
+      complete: () => {
+        console.log('[profile.component] Loading vehicles successful.');
+      }
+    });
   }
 
 
@@ -86,15 +122,27 @@ export class ProfileComponent implements OnInit {
     this.router.navigateByUrl('/admin/users')
   }
 
+  // Filter vehicles
+  filterVehicles(): void {
+    if (!this.searchVehicle) {
+      this.filteredVehicles = this.vehicles;
+    } else {
+      this.filteredVehicles = this.vehicles.filter(vehicle =>
+        vehicle.vehicleId.toLowerCase().includes(this.searchVehicle.toLowerCase())
+      );
+    }
+  }
+
   activateTicket(ticket: any): void {
     console.log("[profile.component] Activate ticket with code: " + ticket.code);
     if (!ticket.activationDate && !ticket.used && ticket.ticketTypeName !== 'PERIOD') {
-      this.ticketService.activateTicket(ticket.code, '146_Gaj')
+      this.ticketService.activateTicket(ticket.code, this.selectedVehicleId)
         .subscribe({
           next: () => {
             ticket.activattionDate = new Date().toISOString();
             ticket.used = true;
             ticket.error = false;
+            ticket.vehicleId = this.selectedVehicleId;
           },
           error: () => {
             ticket.error = true;
@@ -111,8 +159,8 @@ export class ProfileComponent implements OnInit {
   isTicketExpired(ticket: any): boolean {
     const currentDate = new Date();
     // @ts-ignore
-    if (ticket == null || ticket.validUntil==null) {
-      return false
+    if (ticket == null || ticket.validUntil == null) {
+      return false;
     }
     const validUntilDate = new Date(ticket.validUntil);
     return validUntilDate < currentDate;

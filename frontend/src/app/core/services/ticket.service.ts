@@ -42,7 +42,7 @@ export class TicketService {
     return this.http.post<Ticket>(`${this.api}/tickets/buy`, { ticketTypeId });
   }
 
-  activateTicket(code: string, vehicleId: string): Observable<any> {
+  activateTicket(code: string, vehicleId: string | null): Observable<any> {
     console.log("[ticket.service] Received data for activation: ", code, vehicleId)
     return this.http.post(`${this.api}/validate/activate`, {
       code: code,

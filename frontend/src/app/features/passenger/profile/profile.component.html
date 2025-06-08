@@ -29,19 +29,23 @@
             <!-- Ticket status -->
             <p [ngClass]="{
             'inactive': !ticket.activationDate,
-            'active': ticket.used && !ticket.activationDate,
-            'expired': ticket.used
+            'active': ticket.used && ticket.activationDate && !isTicketExpired(ticket),
+            'expired': isTicketExpired(ticket)
           }">
-              <span *ngIf="!ticket.used && !isTicketExpired(ticket) && ticket.ticketTypeName.category !== 'PERIOD'">Nieaktywowany</span>
-              <span *ngIf="ticket.used && !ticket.activationDate && !isTicketExpired(ticket)">Aktywny</span>
+              <span *ngIf="!ticket.activationDate && !isTicketExpired(ticket) && ticket.ticketTypeName.category !== 'PERIOD'">Nieaktywowany</span>
+              <span *ngIf="ticket.activationDate && !isTicketExpired(ticket)">Aktywny</span>
               <span *ngIf="isTicketExpired(ticket)">Wygasły</span>
             </p>
 
             <!-- Valid until date -->
-            <p *ngIf="ticket.validUntil"><strong>Ważny do:</strong> {{ ticket.validUntil | date: 'dd-MM-yyyy' }}</p>
+            <p *ngIf="ticket.validUntil">
+              <strong>Ważny do:</strong> {{ ticket.validUntil | date: 'dd-MM-yyyy HH:mm:ss' }}
+            </p>
 
             <!-- Vehicle assigned to ticket -->
-            <p *ngIf="ticket.activatedIn"><strong>Pojazd:</strong> {{ ticket.activatedIn.vehicleId }}</p>
+            <p *ngIf="ticket.vehicleId">
+              <strong>Pojazd:</strong> {{ ticket.vehicleId }}
+            </p>
 
             <!-- Activate ticket button (if ticket unused and not activated yet) -->
             <button
@@ -55,8 +59,25 @@
           </mat-card-content>
         </mat-card>
 
+
       <!-- Jeśli brak biletów -->
-      <p *ngIf="tickets.length === 0">Brak biletów.</p>
+      <mat-list *ngIf="tickets.length === 0">
+        <p>Brak biletów.</p>
+      </mat-list>
+
+
+      <!-- Wyszukiwanie i rozwijana lista pojazdów -->
+      <mat-form-field appearance="fill">
+        <mat-label>Wybierz pojazd (vehicle ID)</mat-label>
+        <input matInput [(ngModel)]="searchVehicle" (input)="filterVehicles()" placeholder="Wyszukaj pojazd po ID">
+      </mat-form-field>
+
+      <mat-select placeholder="Wybierz pojazd" [(value)]="selectedVehicleId">
+        <mat-option *ngFor="let vehicle of filteredVehicles" [value]="vehicle.vehicleId">
+          {{ vehicle.vehicleId }}
+        </mat-option>
+      </mat-select>
+
     </mat-card-content>
 
     <button class="btn-classic" mat-raised-button color="primary" (click)="goToTickets()">Oferta biletów</button>

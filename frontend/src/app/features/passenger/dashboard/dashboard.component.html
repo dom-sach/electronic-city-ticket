@@ -18,6 +18,7 @@
       <p *ngIf="ticket.durationMinutes"> <strong>Czas trwania:</strong> {{ ticket.durationMinutes }} minut</p>
     </mat-card-content>
     <mat-card-actions>
+      <button *ngIf="!user.email || !user.role" mat-raised-button color="primary" [routerLink]="'/login'">Zaloguj się aby kupić</button>
       <button *ngIf="user.email && user.role && user.role=='PASSENGER'" mat-raised-button color="primary" (click)="buy(ticket.id)">Kup</button>
       <button *ngIf="user.role && user.role=='ADMINISTRATOR'" mat-raised-button color="primary" (click)="edit(ticket.id)">Edytuj</button>
     </mat-card-actions>
