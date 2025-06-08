@@ -48,13 +48,7 @@
             </p>
 
             <!-- Activate ticket button (if ticket unused and not activated yet) -->
-            <button
-              *ngIf="!ticket.used && ticket.ticketTypeName.category !== 'PERIOD'"
-              mat-button
-              color="primary"
-              (click)="activateTicket(ticket)">
-              Aktywuj bilet
-            </button>
+            <button *ngIf="!ticket.used && !ticket.vehicleId" mat-raised-button color="primary" (click)="openVehicleSelectionDialog(ticket)">Aktywuj bilet</button>
 
           </mat-card-content>
         </mat-card>
@@ -67,16 +61,16 @@
 
 
       <!-- Wyszukiwanie i rozwijana lista pojazdów -->
-      <mat-form-field appearance="fill">
-        <mat-label>Wybierz pojazd (vehicle ID)</mat-label>
-        <input matInput [(ngModel)]="searchVehicle" (input)="filterVehicles()" placeholder="Wyszukaj pojazd po ID">
-      </mat-form-field>
+<!--      <mat-form-field appearance="fill">-->
+<!--        <mat-label>Wybierz pojazd (vehicle ID)</mat-label>-->
+<!--        <input matInput [(ngModel)]="searchVehicle" (input)="filterVehicles()" placeholder="Wyszukaj pojazd po ID">-->
+<!--      </mat-form-field>-->
 
-      <mat-select placeholder="Wybierz pojazd" [(value)]="selectedVehicleId">
-        <mat-option *ngFor="let vehicle of filteredVehicles" [value]="vehicle.vehicleId">
-          {{ vehicle.vehicleId }}
-        </mat-option>
-      </mat-select>
+<!--      <mat-select placeholder="Wybierz pojazd" [(value)]="selectedVehicleId">-->
+<!--        <mat-option *ngFor="let vehicle of filteredVehicles" [value]="vehicle.vehicleId">-->
+<!--          {{ vehicle.vehicleId }}-->
+<!--        </mat-option>-->
+<!--      </mat-select>-->
 
     </mat-card-content>
 

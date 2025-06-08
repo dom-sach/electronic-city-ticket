@@ -16,6 +16,7 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatOption} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
 import {FormsModule} from '@angular/forms';
+import {VehicleSelectionDialogComponent} from '../../../shared/components/vehicle-selection-dialog.component.ts/vehicle-selection-dialog.component';
 
 @Component({
   selector: 'app-profile',
@@ -35,6 +36,7 @@ import {FormsModule} from '@angular/forms';
     MatOption,
     MatSelect,
     FormsModule,
+    VehicleSelectionDialogComponent
   ],
   styleUrls: ['./profile.component.scss']
 })
@@ -133,26 +135,35 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  activateTicket(ticket: any): void {
-    console.log("[profile.component] Activate ticket with code: " + ticket.code);
+  openVehicleSelectionDialog(ticket: any): void {
+    const dialogRef = this.dialog.open(VehicleSelectionDialogComponent, {
+      width: '400px',
+      data: { ticket: ticket } // Przekazujemy bilet do dialogu
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.activateTicket(ticket, result.vehicleId);  // Aktywujemy bilet
+      }
+    });
+  }
+
+  activateTicket(ticket: any, vehicleId: string): void {
     if (!ticket.activationDate && !ticket.used && ticket.ticketTypeName !== 'PERIOD') {
-      this.ticketService.activateTicket(ticket.code, this.selectedVehicleId)
-        .subscribe({
-          next: () => {
-            ticket.activattionDate = new Date().toISOString();
-            ticket.used = true;
-            ticket.error = false;
-            ticket.vehicleId = this.selectedVehicleId;
-          },
-          error: () => {
-            ticket.error = true;
-            this.openErrorDialog('Nie udało się skasować biletu, spróbuj ponownie za chwilę.\nPrzepraszamy za niedogodność.');
-            console.log("[profile.component] Ticket activation error");
-          }
-        });
+      this.ticketService.activateTicket(ticket.code, vehicleId).subscribe({
+        next: () => {
+          ticket.activationDate = new Date().toISOString();
+          ticket.used = true;
+          ticket.error = false;
+          ticket.vehicleId = vehicleId;
+        },
+        error: () => {
+          ticket.error = true;
+          this.openErrorDialog('Nie udało się skasować biletu, spróbuj ponownie za chwilę.\nPrzepraszamy za niedogodność.');
+        }
+      });
     } else {
-      console.warn("[profile.component] Ticket cannot be activated");
-      this.openErrorDialog('Ten bilet nie może być aktywowany')
+      this.openErrorDialog('Ten bilet nie może być aktywowany');
     }
   }
 
