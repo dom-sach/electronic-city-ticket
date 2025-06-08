@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { HeaderComponent } from '../../../shared/components/header.component';
+import { HeaderComponent } from '../../../shared/components/header/header.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;

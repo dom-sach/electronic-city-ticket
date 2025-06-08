@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './shared/components/header.component';
+import { Component, OnInit } from '@angular/core';
+import {Router, RouterOutlet} from '@angular/router';
+import { HeaderComponent } from './shared/components/header/header.component';
 import { InfoPopupComponent} from './shared/components/info-popup/info-popup.component';
+import { LocalStorageService } from './core/services/local-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,20 @@ import { InfoPopupComponent} from './shared/components/info-popup/info-popup.com
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'frontend';
+  constructor(private localStorageService: LocalStorageService, private router: Router) {
+  };
+
+  ngOnInit(): void {
+    this.clearUserData();
+  }
+
+  clearUserData(): void {
+    this.localStorageService.removeItem('token');
+    this.localStorageService.removeItem('email');
+    this.localStorageService.removeItem('role');
+
+    this.router.navigateByUrl('/');
+  }
 }

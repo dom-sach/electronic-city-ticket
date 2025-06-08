@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {TicketType, Ticket} from '../../../core/models/ticket.model';
 import { TicketEditDialogComponent } from '../ticket-edit-dialog/ticket-edit-dialog.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {AuthService} from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-passenger-dashboard',
@@ -16,13 +17,29 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogModule, MatDialo
 export class DashboardComponent implements OnInit {
   tickets: TicketType[] = [];
   myTickets: any[] = [];
+  user: any = null;
 
 constructor(
   private ticketService: TicketService,
   private dialog: MatDialog,
+  private authService: AuthService,
 ) {}
 
   ngOnInit(): void {
+
+    // Getting user's role and email
+    const role = this.authService.getUserRole();
+    const email = this.authService.getUserEmail();
+
+    this.user = {
+      email: email,
+      role: role
+    };
+
+    // Debugging logs
+    console.log('Rola:', role);
+    console.log('Email:', email);
+
     this.ticketService.getTicketTypes().subscribe({
       next: types => this.tickets = types,
       error: () => alert('Błąd pobierania oferty')
@@ -67,6 +84,5 @@ constructor(
     if (b.validUntil && new Date(b.validUntil) < now) return 'Wygasły';
     return 'Aktywny';
   }
-
 
 }
