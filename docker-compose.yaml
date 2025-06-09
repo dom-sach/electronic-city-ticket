@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - app-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DATABASE_URL=jdbc:postgresql://db:5432/biletmiejski
+      - DATABASE_USERNAME=biletuser
+      - DATABASE_PASSWORD=biletpass
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "4200:80"
+    networks:
+      - app-network
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: biletuser
+      POSTGRES_PASSWORD: biletpass
+      POSTGRES_DB: biletmiejski
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

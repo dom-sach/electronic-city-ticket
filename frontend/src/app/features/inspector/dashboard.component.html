@@ -1,16 +1,37 @@
-    <form (ngSubmit)="onValidate()" #form="ngForm" class="ticket-form">
-        <h2> Kasowanie biletu</h2>
-      <mat-form-field appearance="fill" >
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Kontrola Biletu</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form>
+      <mat-form-field appearance="fill">
         <mat-label>Kod biletu</mat-label>
-        <input matInput name="code" [(ngModel)]="ticketCode" required />
-      </mat-form-field>
-      <mat-form-field appearance="fill" >
-        <mat-label>Numer autobusu</mat-label>
-        <input matInput name="code" [(ngModel)]="vehicleId" required />
+        <input matInput [(ngModel)]="ticketCode" name="ticketCode" required>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" [disabled]="form.invalid">
-        Sprawdź ważność
-      </button>
+      <mat-form-field appearance="fill">
+        <mat-label>Kod pojazdu</mat-label>
+        <input matInput [(ngModel)]="vehicleId" name="vehicleId">
+      </mat-form-field>
+
+      <div>
+        <button mat-raised-button color="primary" (click)="showTicketInfo()" [disabled]="!isTicketCodeValid()">Pokaż bilet</button>
+        <button mat-raised-button color="accent" (click)="validateTicket()" [disabled]="!isFormValid()">Kontroluj bilet</button>
+      </div>
     </form>
 
+    <div *ngIf="ticketInfo">
+      <mat-card>
+        <mat-card-title>{{ ticketInfo.code }}</mat-card-title>
+        <mat-card-subtitle>Właściciel: {{ ticketInfo.ownerEmail }}</mat-card-subtitle>
+        <p>Data zakupu: {{ ticketInfo.purchaseDate | date }}</p>
+        <p>Ważność: {{ ticketInfo.validUntil | date }}</p>
+        <p [ngClass]="{'active': ticketInfo.used, 'expired': !ticketInfo.used}">{{ ticketInfo.used ? 'Aktywny' : 'Wygasły' }}</p>
+      </mat-card>
+    </div>
+
+    <div *ngIf="ticketValid !== null">
+      <p>{{ ticketValid ? 'Bilet jest aktywny dla tego pojazdu.' : 'Bilet nie jest aktywny dla tego pojazdu.' }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -14,29 +14,15 @@ export class TicketService {
     return this.http.get<TicketType[]>(`${this.api}/tickets/types`);
   }
 
-  // getMyTickets(): Observable<Ticket[]> {
-  //   return this.http.get<Ticket[]>(`${this.api}/my`);
-  // }
-
   getUserTickets(): Observable<any[]> {
     const headers = this.authService.getAuthenticatedHttpOptions();  // Pobranie tokenu
     return this.http.get<any[]>(`${this.api}/tickets/my`, headers);
   }
 
-  loadUserTickets() {
-    this.getUserTickets().subscribe({
-      next: (data) => {
-        console.log('Bilety użytkownika:', data);
-        // Przypisz dane do zmiennej w komponencie
-      },
-      error: (err) => {
-        console.error('Błąd ładowania biletów:', err);
-      },
-      complete: () => {
-        console.log('Ładowanie biletów zakończone.');
-      }
-    });
+  getTicketInfo(ticketCode: string): Observable<any> {
+    return this.http.get<any>(`${this.api}/tickets/check?code=${ticketCode}`);
   }
+
 
   buyTicket(ticketTypeId: number): Observable<Ticket> {
     return this.http.post<Ticket>(`${this.api}/tickets/buy`, { ticketTypeId });

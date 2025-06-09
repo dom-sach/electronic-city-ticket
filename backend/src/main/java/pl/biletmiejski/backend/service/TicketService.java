@@ -13,6 +13,7 @@ import pl.biletmiejski.backend.repository.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -61,6 +62,10 @@ public class TicketService {
         return ticketRepository.findAll().stream()
                 .filter(t -> t.getUser().equals(user))
                 .toList();
+    }
+
+    public Ticket getTicketByCode(String code) {
+        return ticketRepository.findByCode(code).orElse(null);
     }
 
     // skasowanie biletu
@@ -114,10 +119,16 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
-    // sprawdzanie czy bilet jest ważny
     public boolean isTicketValid(String code, String vehicleId) {
         Ticket ticket = ticketRepository.findByCode(code)
                 .orElseThrow(() -> new RuntimeException("Ticket not found"));
+
+        Optional<Vehicle> activatedVehicle = vehicleRepository.findByVehicleId(vehicleId);
+
+        if (activatedVehicle.isEmpty()) {
+            System.out.println("[TicketService] Vehicle not found");
+            return false;
+        }
 
         TicketType type = ticket.getTicketType();
         LocalDateTime now = LocalDateTime.now();
@@ -126,12 +137,14 @@ public class TicketService {
             case PERIOD -> ticket.getValidUntil() != null && now.isBefore(ticket.getValidUntil());
             case ONE_TIME -> ticket.getActivationDate() != null &&
                     ticket.getActivatedIn() != null &&
-                    ticket.getActivatedIn().getVehicleId().equals(vehicleId);
+                    ticket.getActivatedIn().getVehicleId().equals(activatedVehicle.get().getVehicleId()) &&
+                    ticket.getValidUntil() != null && now.isBefore(ticket.getValidUntil());
             case TIME -> ticket.getActivationDate() != null &&
                     ticket.getValidUntil() != null &&
                     now.isBefore(ticket.getValidUntil());
         };
     }
+
 
     // dodawanie nowego typu biletu do oferty
     public TicketType addTicketType(CreateTicketTypeRequest request) {

@@ -11,7 +11,7 @@ export class ValidateService {
 
   checkTicket(code: string, vehicleId: string): Observable<any>{
     return this.http.post(`${this.api}/check`, {
-      ticketCode: code,
+      code: code,
       vehicleId: vehicleId
     });
 

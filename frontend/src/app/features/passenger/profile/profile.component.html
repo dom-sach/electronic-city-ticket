@@ -55,8 +55,14 @@
 
 
       <!-- Jeśli brak biletów -->
-      <mat-list *ngIf="tickets.length === 0">
+      <mat-list *ngIf="tickets.length === 0 && user.role==='PASSENGER'">
         <p>Brak biletów.</p>
+      </mat-list>
+
+      <button class="btn-classic" *ngIf="user.role==='PASSENGER'" mat-raised-button color="primary" (click)="goToTickets()">Oferta biletów</button>
+
+      <mat-list *ngIf="user.role==='TICKET_INSPECTOR'">
+        <p>Witaj bileterze!</p>
       </mat-list>
 
 
@@ -74,7 +80,6 @@
 
     </mat-card-content>
 
-    <button class="btn-classic" mat-raised-button color="primary" (click)="goToTickets()">Oferta biletów</button>
   </ng-container>
 
   <!-- If user is ADMINISTRATOR -->

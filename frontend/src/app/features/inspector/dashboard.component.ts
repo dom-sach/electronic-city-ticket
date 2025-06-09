@@ -4,33 +4,66 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { MatCard } from '@angular/material/card';
+import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
 import { ValidateService } from '../../core/services/validate.service';
+import {TicketService} from '../../core/services/ticket.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-inspector-dashboard',
   standalone: true,
-  imports: [MatCard, FormsModule , CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [MatCard, FormsModule, CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatCardContent, MatCardTitle, MatCardHeader, MatCardSubtitle],
   templateUrl: `./dashboard.component.html`,
   styleUrls: ['./dashboard.component.scss']
 })
 
 export class DashboardComponent {
-  constructor(private validateService: ValidateService) {}
-
   ticketCode: string = '';
   vehicleId: string = '';
-  result: { valid: boolean; message: string } | null = null;
+  ticketInfo: any = null;
+  ticketValid: boolean | null = null;
 
-  onValidate() {
-    const validCodes = ['ABC123', 'XYZ789'];
-    const isValid = validCodes.includes(this.ticketCode.trim().toUpperCase());
+  constructor(
+    private ticketService: TicketService,
+    private validateService: ValidateService,
+    private snackBar: MatSnackBar
+  ) {}
 
-    this.validateService.checkTicket(this.ticketCode, this.vehicleId).subscribe({
-      next: () => alert('Bilet został skasowany!'),
-      error: () => alert('Błąd podczas kasowania biletu')
-    });
+  ngOnInit(): void {}
 
+  showTicketInfo() {
+    if (this.ticketCode) {
+      this.ticketService.getTicketInfo(this.ticketCode).subscribe({
+        next: (data) => {
+          this.ticketInfo = data;
+        },
+        error: () => {
+          this.snackBar.open('Nie udało się pobrać danych biletu, spróbuj ponownie.', 'OK', { duration: 3000 });
+        }
+      });
+    }
+  }
+
+  validateTicket() {
+    if (this.ticketCode && this.vehicleId) {
+      this.validateService.checkTicket(this.ticketCode, this.vehicleId).subscribe({
+        next: (data) => {
+          this.ticketValid = data;
+        },
+        error: () => {
+          this.snackBar.open('Nie udało się skontrolować biletu, spróbuj ponownie.', 'OK', { duration: 3000 });
+        }
+      });
+    }
+  }
+
+  // Form validation
+  isFormValid(): "" | string {
+    return this.ticketCode && this.vehicleId;
+  }
+
+  isTicketCodeValid(): boolean {
+    return this.ticketCode !== '';
   }
 
 }

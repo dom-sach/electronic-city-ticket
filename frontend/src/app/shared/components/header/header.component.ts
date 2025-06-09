@@ -21,6 +21,18 @@ export class HeaderComponent {
     return !!this.authService.getToken();
   }
 
+  isPassenger(): boolean {
+    return this.authService.getUserRole()==='PASSENGER';
+  }
+
+  isInspector(): boolean {
+    return this.authService.getUserRole()==='TICKET_INSPECTOR';
+  }
+
+  isAdmin(): boolean {
+    return this.authService.getUserRole()==='ADMINISTRATOR';
+  }
+
   // Sprawdzanie roli użytkownika
   hasRole(role: string): boolean {
     return this.authService.getUserRole() === role;

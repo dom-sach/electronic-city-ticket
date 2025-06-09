@@ -19,7 +19,7 @@ public class TicketValidationController {
     private final TicketService ticketService;
 
     // przyszła rola dla kasowników
-    // @PreAuthorize("hasRole('SYSTEM')")
+    @PreAuthorize("hasRole('PASSENGER')")
     @Operation(summary = "Kasowanie biletu", description = "Aktywuje bilet użytkownika")
     @PostMapping("/activate")
     public ResponseEntity<TicketDto> activateTicket(@RequestBody ValidateTicketRequest request) {

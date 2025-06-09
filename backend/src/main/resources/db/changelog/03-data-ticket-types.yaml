@@ -10,7 +10,7 @@ databaseChangeLog:
               - column: { name: category, value: "TIME" }
               - column: { name: discount_type, value: "NORMAL" }
               - column: { name: price, valueNumeric: 2.50 }
-              - column: { name: duration_minutes, valueNumeric: 15 }
+              - column: { name: duration_minutes, valueNumeric: 30 }
 
         - insert:
             tableName: ticket_type
@@ -19,7 +19,7 @@ databaseChangeLog:
               - column: { name: category, value: "TIME" }
               - column: { name: discount_type, value: "DISCOUNT" }
               - column: { name: price, valueNumeric: 1.50 }
-              - column: { name: duration_minutes, valueNumeric: 15 }
+              - column: { name: duration_minutes, valueNumeric: 30 }
 
         - insert:
             tableName: ticket_type
@@ -28,7 +28,7 @@ databaseChangeLog:
               - column: { name: category, value: "TIME" }
               - column: { name: discount_type, value: "DISCOUNT" }
               - column: { name: price, valueNumeric: 2.50 }
-              - column: { name: duration_minutes, valueNumeric: 30 }
+              - column: { name: duration_minutes, valueNumeric: 60 }
 
         - insert:
             tableName: ticket_type
@@ -37,7 +37,7 @@ databaseChangeLog:
               - column: { name: category, value: "TIME" }
               - column: { name: discount_type, value: "NORMAL" }
               - column: { name: price, valueNumeric: 3.50 }
-              - column: { name: duration_minutes, valueNumeric: 30 }
+              - column: { name: duration_minutes, valueNumeric: 60 }
 
 
         - insert:
@@ -47,7 +47,7 @@ databaseChangeLog:
               - column: { name: category, value: "ONE_TIME" }
               - column: { name: discount_type, value: "NORMAL" }
               - column: { name: price, valueNumeric: 4.00 }
-              - column: { name: duration_minutes, value: null }
+              - column: { name: duration_minutes, value: 120 }
 
         - insert:
             tableName: ticket_type
@@ -56,7 +56,7 @@ databaseChangeLog:
               - column: { name: category, value: "ONE_TIME" }
               - column: { name: discount_type, value: "DISCOUNT" }
               - column: { name: price, valueNumeric: 3.00 }
-              - column: { name: duration_minutes, value: null }
+              - column: { name: duration_minutes, value: 120 }
 
         - insert:
             tableName: ticket_type
@@ -65,7 +65,7 @@ databaseChangeLog:
               - column: { name: category, value: "PERIOD" }
               - column: { name: discount_type, value: "DISCOUNT" }
               - column: { name: price, valueNumeric: 90.00 }
-              - column: { name: duration_minutes, value: null }
+              - column: { name: duration_minutes, value: 44640 }
 
         - insert:
             tableName: ticket_type
@@ -74,4 +74,4 @@ databaseChangeLog:
               - column: { name: category, value: "PERIOD" }
               - column: { name: discount_type, value: "NORMAL" }
               - column: { name: price, valueNumeric: 150.00 }
-              - column: { name: duration_minutes, value: null }
+              - column: { name: duration_minutes, value: 44640 }

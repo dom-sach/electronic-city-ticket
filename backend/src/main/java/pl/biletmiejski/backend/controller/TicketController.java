@@ -1,6 +1,7 @@
 package pl.biletmiejski.backend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,19 @@ public class TicketController {
                 .map(TicketTypeMapper::toDto)
                 .toList();
         return ResponseEntity.ok(dtoList);
+    }
+
+    // get ticket by code
+    @GetMapping("/check")
+    @Operation(summary = "Sprawdzenie szczegółów biletu", description = "Zwraca szczegóły biletu na podstawie kodu biletu")
+    public ResponseEntity<TicketDto> getTicketDetails(@RequestParam String code) {
+        Ticket ticket = ticketService.getTicketByCode(code);  // Zwróć ticket po kodzie
+        if (ticket != null) {
+            return ResponseEntity.ok(TicketMapper.toDto(ticket));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
     }
 
     // buy a ticket
