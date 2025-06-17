@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - include:
+      file: db.test-changelog/01-schema.sql
+  - include:
+      file: db.test-changelog/02-data-users-test.yaml
+  - include:
+      file: db.test-changelog/03-data-ticket-types-test.yaml
+  - include:
+      file: db.test-changelog/04-data-vehicles-test.yaml
+  - include:
+      file: db.test-changelog/05-data-tickets-test.yaml

@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 02-data-users
+      author: dev
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: email, value: "user1@test.com" }
+              - column: { name: password, value: "$2a$10$ZANgWczt/3vEsrjA8E4P2OZrWVZTom5Zd.Vyb43lkDPC0G/3csYay" }  # hasło: 123456
+              - column: { name: role, value: "PASSENGER" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: email, value: "user2@test.com" }
+              - column: { name: password, value: "$2a$10$ZANgWczt/3vEsrjA8E4P2OZrWVZTom5Zd.Vyb43lkDPC0G/3csYay" } # hasło: 123456
+              - column: { name: role, value: "TICKET_INSPECTOR" }

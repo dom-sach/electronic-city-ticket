@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 04-data-vehicles
+      author: dev
+      changes:
+        - insert:
+            tableName: vehicle
+            columns:
+              - column: { name: vehicle_id, value: "Vehicle01" }

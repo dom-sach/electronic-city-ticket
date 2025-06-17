@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 05-data-tickets
+      author: dev
+      changes:
+        - insert:
+            tableName: ticket
+            columns:
+              - column: { name: code, value: "ticket_01" }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: ticket_type_id, valueNumeric: 1 }
+              - column: { name: purchase_date, valueDate: "2025-06-17T14:00:00" }
+              - column: { name: activation_date, valueDate: "2025-06-18T12:00:00" }
+              - column: { name: valid_until, valueDate: "2025-06-30T18:00:00" }
+              - column: { name: used, valueBoolean: true }
+              - column: { name: activated_in_id, valueNumeric: 1 }

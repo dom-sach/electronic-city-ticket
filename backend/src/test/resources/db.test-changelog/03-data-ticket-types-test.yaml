@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 03-data-ticket-types
+      author: dev
+      changes:
+        - insert:
+            tableName: ticket_type
+            columns:
+              - column: { name: name, value: "TicketType01" }
+              - column: { name: category, value: "TIME" }
+              - column: { name: discount_type, value: "NORMAL" }
+              - column: { name: price, valueNumeric: 10.0 }
+              - column: { name: duration_minutes, valueNumeric: 60 }
+
+        - insert:
+            tableName: ticket_type
+            columns:
+              - column: { name: name, value: "TicketType02" }
+              - column: { name: category, value: "TIME" }
+              - column: { name: discount_type, value: "DISCOUNT" }
+              - column: { name: price, valueNumeric: 5.0 }
+              - column: { name: duration_minutes, valueNumeric: 60 }
