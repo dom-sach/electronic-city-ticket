@@ -1,10 +1,17 @@
-<div>
+<div class="page-content-container">
+
+  <div id="page-header">
+    <h2 style="margin: 0">Witaj Administratorze!</h2>
+    <p>{{currentUserEmail}}</p>
+  </div>
+
+
   <mat-form-field appearance="fill">
-    <mat-label>Wyszukaj po emailu</mat-label>
+    <mat-label>Wyszukaj użytkownika po e-mailu</mat-label>
     <input matInput [(ngModel)]="searchQuery" placeholder="Wpisz email">
   </mat-form-field>
 
-  <mat-tab-group>
+  <mat-tab-group >
     <mat-tab label="Pasażerowie">
       <mat-list *ngIf="usersByRole.get('PASSENGER')">
         <mat-list-item *ngFor="let user of filterUsers('PASSENGER')">

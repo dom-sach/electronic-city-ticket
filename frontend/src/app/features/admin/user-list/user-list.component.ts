@@ -26,6 +26,7 @@ import {NgForOf, NgIf} from '@angular/common';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
+  currentUserEmail: string | null = null;
   usersByRole: Map<string, User[]> = new Map();
   searchQuery: string = '';
 
@@ -33,6 +34,15 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUsers();
+
+    this.userService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.currentUserEmail = user.email;
+      },
+      error: (err) => {
+        console.error('Could not fetch current user', err);
+      }
+    });
   }
 
   loadUsers(): void {

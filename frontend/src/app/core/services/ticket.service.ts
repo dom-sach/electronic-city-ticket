@@ -23,6 +23,9 @@ export class TicketService {
     return this.http.get<any>(`${this.api}/tickets/check?code=${ticketCode}`);
   }
 
+  createTicketType(data: any): Observable<any> {
+    return this.http.post(`${this.api}/tickets/types`, data);
+  }
 
   buyTicket(ticketTypeId: number): Observable<Ticket> {
     return this.http.post<Ticket>(`${this.api}/tickets/buy`, { ticketTypeId });

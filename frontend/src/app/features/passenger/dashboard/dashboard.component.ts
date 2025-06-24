@@ -76,8 +76,6 @@ constructor(
 
       }
     });
-
-
   }
 
   getTicketStatus(b: any): string {
@@ -85,6 +83,26 @@ constructor(
     if (b.used) return 'Skasowany';
     if (b.validUntil && new Date(b.validUntil) < now) return 'Wygasły';
     return 'Aktywny';
+  }
+
+  addNewTicketType(): void {
+    const dialogRef = this.dialog.open(TicketEditDialogComponent, {
+      width: '80vw',
+      height: '80vh',
+      data: null
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.ticketService.createTicketType(result).subscribe({
+          next: () => {
+            alert('Nowy bilet został dodany!');
+            this.ngOnInit();  // przeładuj listę
+          },
+          error: () => alert('Błąd podczas dodawania nowego biletu')
+        });
+      }
+    });
   }
 
 }

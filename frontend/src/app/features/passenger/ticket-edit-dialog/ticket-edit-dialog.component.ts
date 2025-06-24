@@ -5,15 +5,25 @@ import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/fo
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import {MatSelect} from '@angular/material/select';
+import {MatOption} from '@angular/material/core';
 
 @Component({
   selector: 'app-ticket-edit-dialog',
-  imports: [ CommonModule,
+  imports: [CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule, MatDialogContent, ReactiveFormsModule, MatFormField, MatLabel, MatDialogActions],
+    MatButtonModule,
+    MatDialogContent,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatDialogActions,
+    MatSelect,
+    MatOption],
   templateUrl: './ticket-edit-dialog.component.html',
+  standalone: true,
   styleUrl: './ticket-edit-dialog.scss'
 })
 export class TicketEditDialogComponent {
@@ -25,11 +35,11 @@ export class TicketEditDialogComponent {
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
-      name: [data.name, Validators.required],
-      category: [data.category],
-      discountType: [data.discountType],
-      price: [data.price, [Validators.required, Validators.min(0)]],
-      durationMinutes: [data.durationMinutes]
+      name: [data?.name || '', Validators.required],
+      category: [data?.category || '', Validators.required],
+      discountType: [data?.discountType || '', Validators.required],
+      price: [data?.price ?? 0, [Validators.required, Validators.min(0)]],
+      durationMinutes: [data?.durationMinutes ?? null]
     });
   }
 

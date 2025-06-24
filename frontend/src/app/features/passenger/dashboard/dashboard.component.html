@@ -2,6 +2,10 @@
 <div id="page-content-container">
   <h2 id="page-title">Dostępna oferta biletowa</h2>
 
+  <div *ngIf="user.role === 'ADMINISTRATOR'" style="margin-bottom: 16px;">
+    <button mat-raised-button color="accent" (click)="addNewTicketType()">+ Dodaj nowy typ biletu</button>
+  </div>
+
   <div class="ticket-list">
 
     <mat-card

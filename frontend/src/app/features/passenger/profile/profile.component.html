@@ -76,7 +76,7 @@
           <p>Brak biletów.</p>
         </mat-list>
 
-        <button class="btn-classic" *ngIf="user.role==='PASSENGER'" mat-raised-button color="primary" (click)="goToTickets()">Oferta biletów</button>
+
 
         <mat-list *ngIf="user.role==='TICKET_INSPECTOR'">
           <p>Witaj bileterze!</p>
@@ -98,6 +98,7 @@
       </mat-card-content>
 
     </ng-container>
+    <button class="btn-classic" *ngIf="user.role==='PASSENGER'" mat-raised-button color="primary" (click)="goToTickets()">Oferta biletów</button>
 
     <!-- If user is ADMINISTRATOR -->
     <ng-container *ngIf="user.role==='ADMINISTRATOR'">

@@ -1,11 +1,37 @@
+.page-content-container {
+
+}
+
+#page-header {
+  background: #cecece;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+mat-form-field {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 mat-tab-group {
-  margin: 20px;
+  margin: 0;
+}
+
+mat-tab {
+  margin: 0;
 }
 
 mat-list {
-  margin-top: 10px;
+
 }
 
 mat-list-item {
   cursor: pointer;
+  border-top: 1px solid #f6f6f6;
+  margin: 0;
+  padding-left: 5%;
+  padding-right: 5%;
 }

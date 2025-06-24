@@ -1,7 +1,7 @@
 #main-container{
 }
 
-#page-content-container {
+.page-content-container {
   padding-left: 5%;
   padding-right: 5%;
   padding-top: 5%;
@@ -27,12 +27,8 @@
 }
 
 #user-tickets-container {
-  padding-left: 5%;
-  padding-right: 5%;
-  padding-top: 2%;
-  padding-bottom: 2%;
-  padding-right: 5%;
-  margin: 0;
+  display: flex;
+  gap: 20px;
 }
 
 button mat-flat-button {
@@ -67,9 +63,8 @@ mat-card-content {
 }
 
 .ticket-card {
-  margin: 10px;
   display: inline-block;
-  width: 45%;
+  width: 50%;
 }
 
 .ticket-card mat-card-header {

@@ -22,6 +22,7 @@
     <ng-template #logged>
       <a *ngIf="isPassenger()" mat-button routerLink="/profile">Mój Profil</a>
       <a *ngIf="isInspector()" mat-button routerLink="/inspector">Kontrola</a>
+      <a *ngIf="isAdmin()" mat-button routerLink="/admin/users">Administracja</a>
       <button mat-button (click)="logout()">Wyloguj</button>
     </ng-template>
   </div>
