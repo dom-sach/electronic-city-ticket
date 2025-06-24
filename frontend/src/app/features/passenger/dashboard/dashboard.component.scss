@@ -1,55 +1,60 @@
 #page-title {
-  text-align: center;
-  font-size: 15pt;
-  background: #f5f5f5;
+  font-size: 1.5em;
+  font-weight: bold;
   padding-top: 2%;
   padding-bottom: 2%;
 }
+
+#page-content-container {
+  background: #fafafa;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 2%;
+  padding-top: 2%;
+}
+
 
 .ticket-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
-    padding: 2rem;
 }
 
 .ticket-card {
-    padding: 1rem;
+
 }
 
-.ticket-type-time {
-  border-radius: 10px;
-  border-width: 3px;
-  border-style: solid;
-  border-color: #8ede9c;
+.card-content-container {
+  padding: 5%;
 }
 
-.ticket-type-onetime {
-  border-radius: 10px;
-  border-width: 3px;
-  border-style: solid;
-  border-color: #6ef5c1;
+.color-marker-time {
+  background-color: #ec8e8e;
+  height: 0.8em;
+  border-radius: 2px;
 }
 
-.ticket-type-period {
-  border-radius: 10px;
-  border-width: 3px;
-  border-style: solid;
-  border-color: #83eeee;
+.color-marker-onetime {
+  background-color: #f8e9a0;
+  height: 0.8em;
+  border-radius: 2px;
 }
+
+.color-marker-period {
+  background-color: #bae390;
+  height: 0.8em;
+  border-radius: 2px;
+}
+
 
 mat-card-title {
-  padding-top: 2%;
-  padding-bottom: 2%;
-  font-size: 15pt;
+  font-size: 1.4em;
+  margin-bottom: 5%;
 }
 
 mat-card-content {
-  padding-top: 2%;
-  padding-bottom: 2%;
-  background: #fafafa;
-  border-radius: 5px;
-  font-size: 11pt;
+  font-size: 1.1em;
+  margin-bottom: 5%;
 }
 
 mat-card-actions{

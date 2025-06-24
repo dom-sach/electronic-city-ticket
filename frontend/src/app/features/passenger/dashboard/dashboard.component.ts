@@ -7,11 +7,12 @@ import { TicketEditDialogComponent } from '../ticket-edit-dialog/ticket-edit-dia
 import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import {AuthService} from '../../../core/auth/auth.service';
 import {RouterLink} from '@angular/router';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-passenger-dashboard',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatDialogModule, MatDialogContent, RouterLink],
+  imports: [MatIcon, CommonModule, MatCardModule, MatButtonModule, MatDialogModule, MatDialogContent, RouterLink, MatIcon, MatIcon],
   templateUrl: './dashboard.component.html',
   styleUrls: [`./dashboard.component.scss`]
 })

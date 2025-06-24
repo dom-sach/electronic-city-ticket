@@ -3,6 +3,7 @@ import {Router, RouterOutlet} from '@angular/router';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { InfoPopupComponent} from './shared/components/info-popup/info-popup.component';
 import { LocalStorageService } from './core/services/local-storage.service';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { LocalStorageService } from './core/services/local-storage.service';
     RouterOutlet,
     HeaderComponent,
     InfoPopupComponent,
+    MatIconModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

@@ -1,14 +1,31 @@
 <mat-card *ngIf="user" id="main-container">
-  <mat-card-header id="user-info">
-    <mat-card-title id="user-email">Adres e-mail: {{ user.email }}</mat-card-title>
-    <mat-card-subtitle id="user-role">{{ user.role=="PASSENGER"? "Jesteś zalogowany jako pasażer." : "" }}</mat-card-subtitle>
-  </mat-card-header>
 
-  <!-- User tickets list -->
-  <ng-container *ngIf="user.role!='ADMINISTRATOR'">
-    <mat-card-content id="user-tickets-container">
+
+
+  <div id="user-info">
+
+    <h2 id="user-email">Adres e-mail: {{ user.email }}</h2>
+
+    <div style="flex-direction: row; flex: 1; display: flex; gap: 10px; align-content: center; align-items: center">
+      <mat-icon> account_circle </mat-icon>
+      <p id="user-role">{{ user.role=="PASSENGER"? "Jesteś zalogowany jako pasażer." : "" }}</p>
+    </div>
+
+  </div>
+
+  <div class="page-content-container">
+    <!-- User tickets list -->
+    <ng-container *ngIf="user.role!='ADMINISTRATOR'">
+
+      <h2>Twoje bilety</h2>
+
+      <mat-card-content id="user-tickets-container">
         <mat-card *ngFor="let ticket of tickets" class="ticket-card">
           <mat-card-header>
+            <div class="color-marker" [ngClass]="{'color-marker-time': ticket.category==='TIME',
+            'color-marker-onetime': ticket.category==='ONE_TIME',
+            'color-marker-period': ticket.category==='PERIOD'
+            }"></div>
             <mat-card-title>{{ ticket.ticketTypeName.name }}</mat-card-title>
           </mat-card-header>
 
@@ -54,48 +71,51 @@
         </mat-card>
 
 
-      <!-- Jeśli brak biletów -->
-      <mat-list *ngIf="tickets.length === 0 && user.role==='PASSENGER'">
-        <p>Brak biletów.</p>
-      </mat-list>
+        <!-- Jeśli brak biletów -->
+        <mat-list *ngIf="tickets.length === 0 && user.role==='PASSENGER'">
+          <p>Brak biletów.</p>
+        </mat-list>
 
-      <button class="btn-classic" *ngIf="user.role==='PASSENGER'" mat-raised-button color="primary" (click)="goToTickets()">Oferta biletów</button>
+        <button class="btn-classic" *ngIf="user.role==='PASSENGER'" mat-raised-button color="primary" (click)="goToTickets()">Oferta biletów</button>
 
-      <mat-list *ngIf="user.role==='TICKET_INSPECTOR'">
-        <p>Witaj bileterze!</p>
-      </mat-list>
+        <mat-list *ngIf="user.role==='TICKET_INSPECTOR'">
+          <p>Witaj bileterze!</p>
+        </mat-list>
 
 
-      <!-- Wyszukiwanie i rozwijana lista pojazdów -->
-<!--      <mat-form-field appearance="fill">-->
-<!--        <mat-label>Wybierz pojazd (vehicle ID)</mat-label>-->
-<!--        <input matInput [(ngModel)]="searchVehicle" (input)="filterVehicles()" placeholder="Wyszukaj pojazd po ID">-->
-<!--      </mat-form-field>-->
+        <!-- Wyszukiwanie i rozwijana lista pojazdów -->
+        <!--      <mat-form-field appearance="fill">-->
+        <!--        <mat-label>Wybierz pojazd (vehicle ID)</mat-label>-->
+        <!--        <input matInput [(ngModel)]="searchVehicle" (input)="filterVehicles()" placeholder="Wyszukaj pojazd po ID">-->
+        <!--      </mat-form-field>-->
 
-<!--      <mat-select placeholder="Wybierz pojazd" [(value)]="selectedVehicleId">-->
-<!--        <mat-option *ngFor="let vehicle of filteredVehicles" [value]="vehicle.vehicleId">-->
-<!--          {{ vehicle.vehicleId }}-->
-<!--        </mat-option>-->
-<!--      </mat-select>-->
+        <!--      <mat-select placeholder="Wybierz pojazd" [(value)]="selectedVehicleId">-->
+        <!--        <mat-option *ngFor="let vehicle of filteredVehicles" [value]="vehicle.vehicleId">-->
+        <!--          {{ vehicle.vehicleId }}-->
+        <!--        </mat-option>-->
+        <!--      </mat-select>-->
 
-    </mat-card-content>
-
-  </ng-container>
-
-  <!-- If user is ADMINISTRATOR -->
-  <ng-container *ngIf="user.role==='ADMINISTRATOR'">
-    <mat-card>
-
-      <mat-card-content>
-        <mat-card-title>
-          Witaj Administratorze! Co chcesz zrobić?
-        </mat-card-title>
-        <button class="btn-classic" mat-raised-button color="primary" (click)="goToTickets()">Edytuj ofertę biletową -></button>
-        <button class="btn-classic" mat-raised-button color="primary" (click)="goToUsersList()">Przeglądaj użytkowników -></button>
       </mat-card-content>
-    </mat-card>
 
-  </ng-container>
+    </ng-container>
+
+    <!-- If user is ADMINISTRATOR -->
+    <ng-container *ngIf="user.role==='ADMINISTRATOR'">
+      <mat-card>
+
+        <mat-card-content>
+          <mat-card-title>
+            Witaj Administratorze! Co chcesz zrobić?
+          </mat-card-title>
+          <button class="btn-classic" mat-raised-button color="primary" (click)="goToTickets()">Edytuj ofertę biletową -></button>
+          <button class="btn-classic" mat-raised-button color="primary" (click)="goToUsersList()">Przeglądaj użytkowników -></button>
+        </mat-card-content>
+      </mat-card>
+
+    </ng-container>
+  </div>
+
+
 
 </mat-card>
 

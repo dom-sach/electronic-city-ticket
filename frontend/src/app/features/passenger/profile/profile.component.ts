@@ -17,6 +17,7 @@ import {MatOption} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
 import {FormsModule} from '@angular/forms';
 import {VehicleSelectionDialogComponent} from '../../../shared/components/vehicle-selection-dialog.component.ts/vehicle-selection-dialog.component';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-profile',
@@ -36,7 +37,8 @@ import {VehicleSelectionDialogComponent} from '../../../shared/components/vehicl
     MatOption,
     MatSelect,
     FormsModule,
-    VehicleSelectionDialogComponent
+    VehicleSelectionDialogComponent,
+    MatIcon,
   ],
   styleUrls: ['./profile.component.scss']
 })

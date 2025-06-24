@@ -1,26 +1,42 @@
-<h2 id="page-title">Dostępna oferta biletowa</h2>
 
-<div class="ticket-list">
-  <mat-card
-    *ngFor="let ticket of tickets"
-    class="ticket-card"
-    [ngClass]="{'ticket-type-time': ticket.category==='TIME',
-    'ticket-type-onetime': ticket.category==='ONE_TIME',
-    'ticket-type-period': ticket.category==='PERIOD'
-    }"
-  >
-    <mat-card-title>{{ ticket.name }}</mat-card-title>
+<div id="page-content-container">
+  <h2 id="page-title">Dostępna oferta biletowa</h2>
 
-    <mat-card-content>
-      <p> <strong>Typ:</strong> {{ ticket.category }}</p>
-      <p> <strong>Zniżka:</strong> {{ ticket.discountType }}</p>
-      <p> <strong>Cena:</strong> {{ ticket.price | currency:'PLN ':'symbol':'1.2-2' }}</p>
-      <p *ngIf="ticket.durationMinutes"> <strong>Czas trwania:</strong> {{ ticket.durationMinutes }} minut</p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button *ngIf="!user.email || !user.role" mat-raised-button color="primary" [routerLink]="'/login'">Zaloguj się aby kupić</button>
-      <button *ngIf="user.email && user.role && user.role=='PASSENGER'" mat-raised-button color="primary" (click)="buy(ticket.id)">Kup</button>
-      <button *ngIf="user.role && user.role=='ADMINISTRATOR'" mat-raised-button color="primary" (click)="edit(ticket.id)">Edytuj</button>
-    </mat-card-actions>
-  </mat-card>
+  <div class="ticket-list">
+
+    <mat-card
+      *ngFor="let ticket of tickets"
+      class="ticket-card"
+    >
+      <div class="color-marker" [ngClass]="{'color-marker-time': ticket.category==='TIME',
+    'color-marker-onetime': ticket.category==='ONE_TIME',
+    'color-marker-period': ticket.category==='PERIOD'
+    }"></div>
+
+      <div class="card-content-container">
+        <mat-card-title>
+          <mat-icon *ngIf="ticket.category==='TIME'" style="margin-right: 4px"> hourglass_bottom </mat-icon>
+          <mat-icon *ngIf="ticket.category==='ONE_TIME'" style="margin-right: 4px"> done_outline </mat-icon>
+          <mat-icon *ngIf="ticket.category==='PERIOD'" style="margin-right: 4px"> calendar_month </mat-icon>
+
+          {{ ticket.name }}
+        </mat-card-title>
+
+
+        <mat-card-content>
+          <p> <strong>Typ:</strong> {{ ticket.category }}</p>
+          <p> <strong>Zniżka:</strong> {{ ticket.discountType }}</p>
+          <p> <strong>Cena:</strong> {{ ticket.price | currency:'PLN ':'symbol':'1.2-2' }}</p>
+          <p *ngIf="ticket.durationMinutes"> <strong>Czas trwania:</strong> {{ ticket.durationMinutes }} minut</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button *ngIf="!user.email || !user.role" mat-raised-button color="primary" [routerLink]="'/login'">Zaloguj się aby kupić</button>
+          <button *ngIf="user.email && user.role && user.role=='PASSENGER'" mat-raised-button color="primary" (click)="buy(ticket.id)">Kup</button>
+          <button *ngIf="user.role && user.role=='ADMINISTRATOR'" mat-raised-button color="primary" (click)="edit(ticket.id)">Edytuj</button>
+        </mat-card-actions>
+      </div>
+
+    </mat-card>
+  </div>
 </div>
+
