@@ -4,15 +4,15 @@
 .page-content-container {
   padding-left: 5%;
   padding-right: 5%;
-  padding-top: 5%;
-  padding-bottom: 5%;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
 }
 
 #user-info {
   padding-left: 5%;
   padding-right: 5%;
-  padding-top: 4%;
-  padding-bottom: 4%;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
   background-color: #e7e7e7;
 }
 
@@ -23,12 +23,60 @@
 
 #user-role {
   font-size: 1.1em;
-  margin-top: 10pt;
+  margin-top: 1em;
 }
 
 #user-tickets-container {
+  margin-top: 2vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.ticket-card {
+  flex: 1 1 calc(33.333% - 10px); // domyślnie 3 bilety w rzędzie
+  max-width: calc(33.333% - 10px);
+  min-width: 250px;
+  height: 45vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+@media (max-width: 900px) {
+  .ticket-card {
+    flex: 1 1 calc(50% - 10px); // 2 bilety
+    max-width: calc(50% - 10px);
+  }
+}
+
+@media (max-width: 600px) {
+  .ticket-card {
+    flex: 1 1 100%; // 1 bilet
+    max-width: 100%;
+  }
+}
+
+#card-content {
+  display: flex;
+  flex-direction: column;
+  padding: 1%;
+}
+
+mat-card-title {
+  font-size: 1.3em;
+  margin-bottom: 5%;
+}
+
+
+mat-card-content {
+  padding-top: 1vh;
+  padding-bottom: 1vh;
 }
 
 button mat-flat-button {
@@ -38,17 +86,8 @@ button mat-flat-button {
 .btn-classic {
   min-width: fit-content;
   text-align: center;
-  margin-bottom: 2%;
-  margin-top: 2%;
 }
 
-#ticket-purchase-text {
-  margin-top: 3%;
-  margin-bottom: 3%;
-}
-
-#ticket-code-text {
-}
 
 mat-raised-button {
   background: none;
@@ -56,20 +95,6 @@ mat-raised-button {
   color: white;
 }
 
-mat-card-title {
-}
-
-mat-card-content {
-}
-
-.ticket-card {
-  display: inline-block;
-  width: 50%;
-}
-
-.ticket-card mat-card-header {
-  background-color: #f2f2f2;
-}
 
 .ticket-card .inactive {
   color: gray;
@@ -81,15 +106,6 @@ mat-card-content {
 
 .ticket-card .expired {
   color: red;
-}
-
-.ticket-card p {
-  font-size: 14px;
-}
-
-.ticket-card mat-card-title {
-  font-size: 18px;
-  font-weight: bold;
 }
 
 .color-marker-time {

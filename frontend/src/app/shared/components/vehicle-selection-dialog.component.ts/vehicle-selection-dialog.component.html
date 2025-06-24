@@ -1,19 +1,26 @@
-<h2 mat-dialog-title>Skasuj Bilet</h2>
-<mat-dialog-content>
-  <mat-form-field appearance="fill">
-    <mat-label>Wybierz pojazd (vehicle ID)</mat-label>
-    <input matInput [(ngModel)]="searchVehicle" (input)="filterVehicles()" placeholder="Wyszukaj pojazd po ID">
-  </mat-form-field>
 
-  <mat-select placeholder="Wybierz pojazd" [(value)]="selectedVehicleId">
-    <mat-option *ngFor="let vehicle of filteredVehicles" [value]="vehicle.vehicleId">
-      {{ vehicle.vehicleId }}
-    </mat-option>
-  </mat-select>
-</mat-dialog-content>
+<div class="container">
+  <h2 mat-dialog-title>Skasuj bilet</h2>
 
-<mat-dialog-actions>
-  <button mat-button (click)="cancel()">Anuluj</button>
-  <button mat-button color="primary" (click)="activateTicket()">Aktywuj</button>
-</mat-dialog-actions>
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Wybierz pojazd (vehicle ID)</mat-label>
+      <input matInput [(ngModel)]="searchVehicle" (input)="filterVehicles()" placeholder="Wyszukaj pojazd po ID">
+    </mat-form-field>
+
+    <mat-select placeholder="Wybierz pojazd" [(value)]="selectedVehicleId">
+      <mat-option *ngFor="let vehicle of filteredVehicles" [value]="vehicle.vehicleId">
+        {{ vehicle.vehicleId }}
+      </mat-option>
+    </mat-select>
+
+    <mat-dialog-actions>
+      <button mat-raised-button (click)="cancel()">Anuluj</button>
+      <button mat-raised-button color="primary" (click)="activateTicket()">Aktywuj</button>
+    </mat-dialog-actions>
+
+  </mat-dialog-content>
+
+</div>
+
 

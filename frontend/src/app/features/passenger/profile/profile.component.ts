@@ -100,9 +100,20 @@ export class ProfileComponent implements OnInit {
   loadUserTickets(): void {
     this.ticketService.getUserTickets().subscribe({
       next: (data) => {
-        console.log("[profile.component] Fetched tickets: ", data);  // Logowanie biletów
+        console.log("[profile.component] Fetched tickets: ", data);
+
         if (data && Array.isArray(data)) {
-          this.tickets = data;
+          this.tickets = data.sort((a, b) => {
+            const isAExpired = this.isTicketExpired(a);
+            const isBExpired = this.isTicketExpired(b);
+
+            if (isAExpired && !isBExpired) return 1;
+            if (!isAExpired && isBExpired) return -1;
+
+            const dateA = new Date(a.purchaseDate).getTime();
+            const dateB = new Date(b.purchaseDate).getTime();
+            return dateB - dateA;
+          });
         } else {
           this.tickets = [];
         }

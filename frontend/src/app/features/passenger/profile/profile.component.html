@@ -1,12 +1,10 @@
 <mat-card *ngIf="user" id="main-container">
 
-
-
   <div id="user-info">
 
     <h2 id="user-email">Adres e-mail: {{ user.email }}</h2>
 
-    <div style="flex-direction: row; flex: 1; display: flex; gap: 10px; align-content: center; align-items: center">
+    <div style="flex-direction: row; display: flex; gap: 10px; align-content: center; align-items: center">
       <mat-icon> account_circle </mat-icon>
       <p id="user-role">{{ user.role=="PASSENGER"? "Jesteś zalogowany jako pasażer." : "" }}</p>
     </div>
@@ -17,57 +15,90 @@
     <!-- User tickets list -->
     <ng-container *ngIf="user.role!='ADMINISTRATOR'">
 
-      <h2>Twoje bilety</h2>
+      <div style="
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      align-content: center;
+      align-self: center;
+      ">
+        <h2>Twoje bilety</h2>
+        <button class="btn-classic" mat-raised-button color="primary" (click)="goToTickets()">Kup nowy bilet</button>
+      </div>
+
 
       <mat-card-content id="user-tickets-container">
+
         <mat-card *ngFor="let ticket of tickets" class="ticket-card">
-          <mat-card-header>
-            <div class="color-marker" [ngClass]="{'color-marker-time': ticket.category==='TIME',
-            'color-marker-onetime': ticket.category==='ONE_TIME',
-            'color-marker-period': ticket.category==='PERIOD'
-            }"></div>
-            <mat-card-title>{{ ticket.ticketTypeName.name }}</mat-card-title>
-          </mat-card-header>
 
-          <mat-card-content>
-            <!-- Ticket purchase date -->
-            <p id="ticket-purchase-text">
-              <strong>
-                Data zakupu:
-              </strong>
-              {{ ticket.purchaseDate | date: 'dd-MM-yyyy' }}
-            </p>
+          <div class="color-marker" [ngClass]="{
+            'color-marker-time': ticket.ticketTypeName.category==='TIME',
+            'color-marker-onetime': ticket.ticketTypeName.category==='ONE_TIME',
+            'color-marker-period': ticket.ticketTypeName.category==='PERIOD'
+            }">
+          </div>
 
-            <!-- Unique ticket code -->
-            <p id="ticket-code-text">
-              <strong>Kod biletu:</strong> {{ticket.code}}
-            </p>
 
-            <!-- Ticket status -->
-            <p [ngClass]="{
-            'inactive': !ticket.activationDate,
-            'active': ticket.used && ticket.activationDate && !isTicketExpired(ticket),
-            'expired': isTicketExpired(ticket)
-          }">
-              <span *ngIf="!ticket.activationDate && !isTicketExpired(ticket) && ticket.ticketTypeName.category !== 'PERIOD'">Nieaktywowany</span>
-              <span *ngIf="ticket.activationDate && !isTicketExpired(ticket)">Aktywny</span>
-              <span *ngIf="isTicketExpired(ticket)">Wygasły</span>
-            </p>
+          <div id="card-content">
 
-            <!-- Valid until date -->
-            <p *ngIf="ticket.validUntil">
-              <strong>Ważny do:</strong> {{ ticket.validUntil | date: 'dd-MM-yyyy HH:mm:ss' }}
-            </p>
+            <mat-card-content>
+              <mat-card-title>
+                {{ ticket.ticketTypeName.name }}
+              </mat-card-title>
 
-            <!-- Vehicle assigned to ticket -->
-            <p *ngIf="ticket.vehicleId">
-              <strong>Pojazd:</strong> {{ ticket.vehicleId }}
-            </p>
+              <p style="
+                display: flex;
+                flex-direction: column;
+              ">
+                <strong>Data zakupu:</strong>
+                {{ ticket.purchaseDate | date: 'dd-MM-yyyy' }}
+              </p>
 
-            <!-- Activate ticket button (if ticket unused and not activated yet) -->
-            <button *ngIf="!ticket.used && !ticket.vehicleId" mat-raised-button color="primary" (click)="openVehicleSelectionDialog(ticket)">Aktywuj bilet</button>
+              <p style="
+                display: flex;
+                flex-direction: column
+              ">
+                <strong>Kod biletu:</strong>
+                {{ticket.code}}
+              </p>
 
-          </mat-card-content>
+              <!-- Valid until date -->
+              <p style="
+                display: flex;
+                flex-direction: column
+              " *ngIf="ticket.validUntil">
+                <strong>Ważny do:</strong> {{ ticket.validUntil | date: 'dd-MM-yyyy HH:mm:ss' }}
+              </p>
+
+              <!-- Vehicle assigned to ticket -->
+              <p style="
+                display: flex;
+                flex-direction: column
+              " *ngIf="ticket.vehicleId">
+                <strong>Pojazd:</strong> {{ ticket.vehicleId }}
+              </p>
+
+              <!-- Ticket status -->
+              <p style="
+                display: flex;
+                flex-direction: column
+              " [ngClass]="{
+                'inactive': !ticket.activationDate,
+                'active': ticket.used && ticket.activationDate && !isTicketExpired(ticket),
+                'expired': isTicketExpired(ticket)
+              }">
+                <button mat-raised-button color="secondary" *ngIf="ticket.activationDate && !isTicketExpired(ticket)">Aktywny</button>
+                <button disabled mat-raised-button color="secondary" *ngIf="isTicketExpired(ticket)">Wygasły</button>
+              </p>
+
+              <!-- Activate ticket button (if ticket unused and not activated yet) -->
+              <button *ngIf="!ticket.used && !ticket.vehicleId" mat-raised-button color="primary" (click)="openVehicleSelectionDialog(ticket)">Aktywuj bilet</button>
+
+            </mat-card-content>
+          </div>
+
         </mat-card>
 
 
@@ -98,7 +129,6 @@
       </mat-card-content>
 
     </ng-container>
-    <button class="btn-classic" *ngIf="user.role==='PASSENGER'" mat-raised-button color="primary" (click)="goToTickets()">Oferta biletów</button>
 
     <!-- If user is ADMINISTRATOR -->
     <ng-container *ngIf="user.role==='ADMINISTRATOR'">
@@ -108,8 +138,7 @@
           <mat-card-title>
             Witaj Administratorze! Co chcesz zrobić?
           </mat-card-title>
-          <button class="btn-classic" mat-raised-button color="primary" (click)="goToTickets()">Edytuj ofertę biletową -></button>
-          <button class="btn-classic" mat-raised-button color="primary" (click)="goToUsersList()">Przeglądaj użytkowników -></button>
+
         </mat-card-content>
       </mat-card>
 
