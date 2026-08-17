@@ -1,67 +1,95 @@
-# Elektroniczny bilet miejski
-*Aleksandra Piątek, Dominika Sachanbińska*
+# Electronic City Ticket System
 
-System umożliwia użytkownikom korzystanie z wirtualnych biletów do poruszania się po mieście komunikacją zbiorową. Obejmuje trzy główne role:
-- Pasażer: może się zarejestrować, przeglądać ofertę biletową, kupować bilety oraz przeglądać ich historię.
-- Bileter: może sprawdzać ważność biletu na podstawie unikalnego kodu oraz pojazdu.
-- Administrator: może zarządzać ofertą biletową (dodawanie/usuwanie typów biletów).
+A full-stack web application for managing electronic public transport tickets.
 
-Każdy bilet posiada unikalny kod i może być:
-- jednorazowy (ważny tylko po skasowaniu w danym pojeździe),
-- czasowy (ważny przez określony czas od skasowania),
-- okresowy (ważny w określonym przedziale czasowym od daty zakupu).
+The system supports three user roles: **passengers**, **ticket inspectors**, and **administrators**. Passengers can browse available ticket types, purchase and activate tickets, and view their ticket history. Ticket inspectors can verify ticket validity, while administrators can manage the available ticket offering.
 
-System umożliwia:
-- zakup biletu,
-- aktywację biletu (np. przez kasownik),
-- weryfikację biletu,
-- zarządzanie typami biletów (dla testów lub administracji),
-- dokumentację API dostępną przez Swagger UI.
+The application was developed as a university software engineering project and covers the complete flow from a relational database and REST API to a browser-based user interface.
 
-### Schemat bazy danych
+## Key Features
+
+* User registration and authentication
+* Role-based authorization
+* JWT-based authentication
+* Ticket purchase and activation
+* One-time, time-based and period tickets
+* Ticket validation by inspectors
+* Ticket history
+* Ticket type management for administrators
+* PostgreSQL database migrations and seed data with Liquibase
+* REST API documentation with Swagger / OpenAPI
+* Backend unit and integration tests
+
+## Technology Stack
+
+**Backend**
+
+* Java 21
+* Spring Boot
+* Spring Security
+* Spring Data JPA
+* PostgreSQL
+* Liquibase
+* JWT
+* Maven
+* JUnit 5 / Mockito
+* SpringDoc OpenAPI
+
+**Frontend**
+
+* Angular 19
+* TypeScript
+* Angular Material
+* RxJS
+
+**Development**
+
+* Docker Compose
+* PostgreSQL
+* Swagger UI
+
+## Architecture
+
+The application follows a client-server architecture. The Angular frontend communicates with a Spring Boot REST API, while application data is stored in PostgreSQL. Authentication is handled using JWT tokens and Spring Security.
+
+### Database Schema
+
 <img src="/assets/bilet-miejski-database-schema.png" width="700px"/>
 
-## Stack technologiczny
-- **Backend**: Java 17+, Spring Boot 3
-- **Baza danych**: PostgreSQL
-- **Zarządzanie zależnościami**: Maven
-- **Bezpieczeństwo**: Spring Security + JWT (rola pasażera i biletera)
-- **API**: REST, dokumentowane automatycznie przez SpringDoc OpenAPI (Swagger UI)
-- **Testy**: JUnit 5, Mockito
+## Running the Project
 
-## Wymagania wstępne
-- Java 21
-- Maven (mvn)
-- PostgreSQL
-- IntelliJ IDEA (lub inny IDE)
+PostgreSQL databases for development and testing can be started using:
 
-## Uruchomienie
-
-### Backend
-Krok 1:
-W Postgres utworzyć bazę danych i użytkownika:
-```
-CREATE DATABASE biletmiejski;
-CREATE USER biletuser WITH PASSWORD 'biletpass';
-GRANT ALL PRIVILEGES ON DATABASE biletmiejski TO biletuser;
-ALTER DATABASE biletmiejski OWNER to biletuser;
+```bash
+docker compose up -d
 ```
 
-Krok 2:
-Skonfiguruj połączenie w src/main/resources/application.properties:
-```
-spring.datasource.url=jdbc:postgresql://localhost:5432/biletmiejski
-spring.datasource.username=biletuser
-spring.datasource.password=biletpass
+Start the backend from the `backend` directory:
 
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-server.port=8080
+```bash
+./mvnw spring-boot:run
 ```
 
-Krok 3:
-Z poziomu folderu backend uruchomić projekt i poczekać aż pobierze wszystkie zależności:
+Start the frontend from the `frontend` directory:
+
+```bash
+npm install
+npm start
 ```
-mvn spring-boot:run
+
+The frontend is available at:
+
+```text
+http://localhost:4200
 ```
+
+Swagger API documentation is available at:
+
+```text
+http://localhost:8080/swagger-ui.html
+```
+
+## Authors
+
+* Aleksandra Piątek
+* Dominika Sachanbińska
